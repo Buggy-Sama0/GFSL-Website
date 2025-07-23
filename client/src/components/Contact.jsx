@@ -13,6 +13,8 @@ function Contact() {
   const [form, setForm] = useState(initialState);
   const [files, setFiles]=useState([])
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,7 +27,12 @@ function Contact() {
 
 const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setSubmitted(true);
+
+    if(!files) {
+      return;
+    }
 
     // Here you would handle sending the form data
     const formData=new FormData();
@@ -51,25 +58,70 @@ const handleSubmit = async (e) => {
       setFiles(null);
     } catch (error) {
       console.log('Error submitting form:', error);
-    } 
+      setError('There was an error submitting your form. Please try again later.');
+      setSubmitted(false);
+    } finally {
+      setLoading(false);
+      setForm(initialState);
+      setFiles([]);
+    }
   };
 
   return (
     <main className="contact-page">
-      <h2 className="contact-title">Contact Us</h2>
+      <h2 className="contact-title">Contact Gurkha Force Security</h2>
+      <p className="contact-subtitle">
+        Get in touch with our security experts for a consultation or to discuss your protection needs
+      </p>
+
       <div className="contact-info">
-        <div>
-          <h3>Get in Touch</h3>
-          <p><strong>Phone:</strong> <a href="tel:+85237584165">+852 3758 4165</a></p>
-          <p><strong>Email:</strong> <a href="mailto:gurkha.forces@gmail.com">gurkha.forces@gmail.com</a></p>
-          <p><strong>Office:</strong> Goldfield Industial Building, 144-150 Tai Lin Pai Road, NT,  Hong Kong</p>
-          <img src="/Images/contact-qr.png" alt="QR code to save contact" className="contact-qr" />
+        <div className="contact-card">
+          <h3>Contact Information</h3>
+          <p>
+            <a href="tel:+85237584165">📞 +852 3758 4165</a>
+          </p>
+          <p>
+            <a href="mailto:gurkha.forces@gmail.com">✉️ gurkha.forces@gmail.com</a>
+          </p>
+          <p>
+            <strong>Headquarters:</strong><br />
+            Goldfield Industrial Building<br />
+            144-150 Tai Lin Pai Road<br />
+            Kwai Chung, NT<br />
+            Hong Kong
+          </p>
+
+          <h3 style={{ marginTop: '2rem' }}>Business Hours</h3>
+          <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+          <p>Saturday: 9:00 AM - 1:00 PM</p>
+          <p>Sunday: Closed</p>
         </div>
+
         <div>
-          <h3>Contact Form</h3>
-          {submitted && (
-            <div className="contact-success">Thank you! We will get back to you soon.</div>
-          )}
+          <h3>Application Form</h3>
+          {submitted &&
+            <div className="contact-success"
+            style={{
+              position: 'relative',
+              padding: '1rem',
+              margin: '1rem 0',
+              background: '#d4edda',
+              color: '#155724',
+              borderRadius: '4px'
+            }}>
+              Thank you! We will get back to you soon.
+              <button onClick={()=> setSubmitted(false)}
+                style={{
+                position: 'absolute',
+                top: '0.5rem',
+                right: '0.5rem',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem'
+              }}>X</button>
+            </div> 
+          }
             <form className="contact-form" onSubmit={handleSubmit}>
               <input name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required />
               <input name="email" type="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
@@ -78,17 +130,24 @@ const handleSubmit = async (e) => {
                 <option value="">Select Service</option>
                 {services.map((s, idx) => <option key={idx} value={s}>{s}</option>)}
               </select>
-              <input type="file" name="files" onChange={handleFileChange} multiple/>
-              
-              <button type="submit" className="cta-btn">Send Message</button>
+
+              <div className="form-group">
+                <label>Attach Documents (HKID, Safety Card, CWR Card, etc)</label>
+                <input type="file" name="files" onChange={handleFileChange} multiple/>
+                {files.length > 0 && (
+                    <div style={{ marginTop: '0.5rem' }}>
+                      <small>Selected files: {Object.entries(files).map(([key, file])=> file.name).join(', ')}</small>
+                    </div>
+                )}
+              </div>
+              {error && <div style={{ color: 'var(--secondary-accent)', marginTop: '1rem'}}>{error}</div>}
+
+              <button type="submit" className="cta-btn">
+                {loading ? 'Submitting...' : 'Submit'}
+              </button>
             </form>
+          
         </div>
-        {files && (
-          <div>
-            <p>{files.name}</p>
-            <p>{files.size} KBs</p>
-          </div>
-        )}
       </div>
       <div className="contact-map-section">
         <h3>Our Office Area</h3>

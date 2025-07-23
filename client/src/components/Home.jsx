@@ -8,13 +8,13 @@ function Home() {
         <div className="hero-content">
           <h1>
             <span role="img" aria-label="shield" style={{fontSize: '2.5rem', verticalAlign: 'middle'}}>🛡️</span>
-            Gurkha Force Security Ltd
+            <span className="company-name">Gurkha Force Security Ltd</span>
           </h1>
           <p className="hero-tagline">Protecting People, Property & Peace of Mind</p>
           
         </div>
         <div className="hero-image">
-          <img src="/assets/Company_Logo.png" alt="Company Logo" style={{maxWidth: '180px', borderRadius: '24px', boxShadow: '0 4px 32px rgba(26,42,58,0.18)'}} />
+          <img src="/public/Company_Logo.png" alt="Company Logo" style={{maxWidth: '180px', borderRadius: '24px', boxShadow: '0 4px 32px rgba(26,42,58,0.18)'}} />
         </div>
       </section>
 
@@ -49,14 +49,7 @@ function Home() {
             <span role="img" aria-label="CCTV">🎥</span>
             CCTV Monitoring
           </a>
-          <a href="#" className="service-card">
-            <span role="img" aria-label="Patrol">🚓</span>
-            Mobile Patrols
-          </a>
-          <a href="#" className="service-card">
-            <span role="img" aria-label="Alarm">🔔</span>
-            Alarm Response
-          </a>
+
         </div>
       </section>
 

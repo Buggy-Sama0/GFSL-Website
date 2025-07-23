@@ -26,6 +26,15 @@ function Requirements() {
       <div className="requirements-note">
         <strong>Note:</strong> All documents must be valid and up-to-date. Originals and copies may be required during the interview process.
       </div>
+
+      <div className="requirements-cta">
+        <p>Ready to apply? Ensure you have all documents prepared before submitting your application.</p>
+        <button className="requirements-button">
+          Fill Application Form
+          <span className="icon">→</span>
+        </button>
+      </div>
+
     </main>
   );
 }

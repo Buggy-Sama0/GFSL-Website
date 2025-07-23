@@ -1,0 +1,146 @@
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  background: linear-gradient(135deg, #121926 0%, #1a2a4a 100%);
+  color: #fff;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 3px solid var(--primary-accent, #ffd700);
+  backdrop-filter: blur(8px);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.header-logo:hover {
+  transform: scale(1.03);
+}
+
+.header-logo img {
+  height: 3.75rem;
+  width: 3.75rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.5rem;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  border: 2px solid var(--primary-accent, #ffd700);
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.header-logo img:hover {
+  transform: rotate(-5deg) scale(1.1);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+}
+
+.company-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  background: linear-gradient(90deg, var(--primary-accent, #ffd700) 0%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header-nav {
+  display: flex;
+  gap: 0.7rem;
+  animation:forwards fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  0% {
+        opacity: 0;
+        transform: rotateX(-90deg);
+    }
+  50% {
+      transform: rotateX(-20deg);
+  }
+  100% {
+      opacity: 1;
+      transform: rotateX(0deg);
+  }
+}
+
+.header-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-nav a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--primary-accent, #ffd700);
+  transition: width 0.3s ease;
+}
+
+.header-nav a:hover {
+  color: var(--primary-accent, #ffd700);
+}
+
+.header-nav a:hover::before {
+  width: 100%;
+}
+
+.header-nav a:active {
+  transform: translateY(1px);
+}
+
+/* Emergency Contact Button */
+.header-nav a.emergency {
+  background: rgba(255, 50, 50, 0.2);
+  border: 1px solid rgba(255, 50, 50, 0.4);
+  animation: pulseEmergency 1.5s infinite;
+}
+
+.header-nav a.emergency:hover {
+  background: rgba(255, 50, 50, 0.3);
+  color: #fff;
+}
+
+/* Mobile Menu */
+.header-hamburger {
+  display: none;
+  cursor: pointer;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.header-hamburger:hover {
+  background: rgba(255, 215, 0, 0.2);
+}
+
+.header-hamburger span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  margin: 5px 0;
+  background: var(--primary-accent, #ffd700);
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}

@@ -20,7 +20,7 @@ const caseStudies = [
   }
 ];
 
-function Service() {
+function Services() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
@@ -76,4 +76,4 @@ function Service() {
   );
 }
 
-export default Service;
+export default Services;

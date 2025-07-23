@@ -1,34 +1,62 @@
 import React from 'react';
-import './About.css'; // Optional: for custom styles
+import './About.css';
 
 const team = [
   {
-    name: "Jane Doe",
-    role: "CEO",
-    photo: "jane.jpg", // Place in public folder or import
-    certifications: ["CISSP", "MBA"],
-    bio: "Jane has led our company since 2010, focusing on innovation and customer trust."
+    id: 1,
+    name: "Limbu Bisnukumar",
+    role: "Managing Director",
+    photo: "/images/team/jane-doe.jpg",
+    quote: "Safety isn't expensive, it's priceless."
   },
   {
-    name: "John Smith",
-    role: "Lead Security Officer",
-    photo: "john.jpg",
-    certifications: ["CPP", "First Aid"],
-    bio: "John brings 15 years of field experience and a passion for safety."
-  }
-  // Add more team members as needed
+    id: 2,
+    name: "Waiba Kamali",
+    role: "Director",
+    photo: "/images/team/john-smith.jpg",
+    quote: "Prevention is better than reaction."
+  },
 ];
 
 const milestones = [
-  { year: 2010, event: "Company founded" },
-  { year: 2012, event: "First major contract" },
-  { year: 2018, event: "Expanded nationwide" },
-  { year: 2024, event: "Awarded industry excellence" }
+  { 
+    year: 2013, 
+    event: "Founded with focus on corporate manned security services",
+    icon: "🏢"
+  },
+  {
+    year: 2023,
+    event: "Boost of contracts with major corporations",
+    icon: "📈"
+  },
+  { 
+    year: 2023, 
+    event: "Recieved Certification of Appreciation from Paul Y.-CREC JV",
+    icon: "🎖️"
+  },
+];
+
+const coreValues = [
+  {
+    title: "Integrity",
+    description: "We operate with uncompromising ethical standards",
+    icon: "🤝"
+  },
+  {
+    title: "Vigilance",
+    description: "Constant awareness is our default state",
+    icon: "👀"
+  },
+  {
+    title: "Innovation",
+    description: "We stay ahead of emerging threats",
+    icon: "💡"
+  }
 ];
 
 function About() {
   return (
-    <section className="about">
+    <section className="about" id="about">
       <h2>About Us</h2>
       <p>
         <strong>Our Mission:</strong> To provide reliable, innovative security solutions with a customer-first approach.
@@ -37,45 +65,58 @@ function About() {
         <strong>Values:</strong> Integrity, professionalism, and continuous improvement.
       </p>
 
-      <h3>Why Choose Us?</h3>
-      <ul>
-        <li>Decades of experience in security and protection</li>
-        <li>Cutting-edge technology and ongoing staff training</li>
-        <li>Focused on customer safety and satisfaction</li>
-      </ul>
-
-      <h3>Company Milestones</h3>
-      <ul className="timeline">
-        {milestones.map((m, idx) => (
-          <li key={idx}><strong>{m.year}:</strong> {m.event}</li>
-        ))}
-      </ul>
-
-      <h3>Meet the Team</h3>
-      <div className="team">
-        {team.map((member, idx) => (
-          <div className="team-member" key={idx}>
-            <img src={member.photo} alt={member.name} className="team-photo" />
-            <h4>{member.name}</h4>
-            <p>{member.role}</p>
-            <p>Certifications: {member.certifications.join(', ')}</p>
-            <p>{member.bio}</p>
+      <h3>Our Core Values</h3>
+      <div className="values-grid">
+        {coreValues.map((value, index) => (
+          <div className="value-card" key={index}>
+            <div className="value-icon">{value.icon}</div>
+            <h4>{value.title}</h4>
+            <p>{value.description}</p>
           </div>
         ))}
       </div>
 
-      <h3>Message from Our CEO</h3>
+      <h3>Our Journey</h3>
+      <ul className="timeline">
+        {milestones.map((milestone, index) => (
+          <li key={index}>
+            <span className="timeline-date">{milestone.year} {milestone.icon}</span>
+            {milestone.event}
+          </li>
+        ))}
+      </ul>
+
+      <h3>Executive Protection Team</h3>
+      <div className="team">
+        {team.map((member) => (
+          <div className="team-member" key={member.id}>
+            <img 
+              src={member.photo} 
+              alt={member.name} 
+              className="team-photo" 
+              loading="lazy"
+            />
+            <h4>{member.name}</h4>
+            <p className="position">{member.role}</p>
+            <p className="bio">{member.bio}</p>
+            <blockquote className="member-quote">"{member.quote}"</blockquote>
+          </div>
+        ))}
+      </div>
+
+      <h3>Security Briefing</h3>
       <div className="video-message">
-        {/* Replace with your actual video link or embed */}
-        <iframe
-          width="320"
-          height="180"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-          title="CEO Message"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
+        <div className="video-container">
+          <iframe
+            src="https://www.youtube.com/embed/security-video-id"
+            title="Security Briefing"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+        <p className="video-caption">
+          Watch our CEO discuss emerging security threats and our proactive solutions.
+        </p>
       </div>
     </section>
   );

@@ -1,33 +1,38 @@
-import React from 'react';
-import CompanyLogo from '../assets/Company_Logo.png';
-import './Footer.css';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Header.css';
 
-function Footer() {
+function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleHamburgerClick = () => {
+    setMenuOpen((prev) => !prev);
+  };
+
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-logo">
-          <img src={CompanyLogo} alt="Company Logo" />
-          <span className="footer-company">Gurkha Force Security Ltd</span>
-        </div>
-        <div className="footer-links">
-          <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="/services">Services</a>
-          <a href="/industries">Industries</a>
-          <a href="/requirements">Job Requirements</a>
-          <a href="/contact">Contact</a>
-        </div>
-        <div className="footer-contact">
-          <span>📞 +852 3758 4165</span>
-          <span>✉️ gurkha.forces@gmail.com</span>
-        </div>
+    <header className="header">
+      <div className="header-logo">
+        <img 
+          src="/public/Company_Logo.png" 
+          alt="Gurkha Force Security Limited Logo" 
+        />
+        <span className="company-name">Gurkha Force Security Ltd</span>
       </div>
-      <div className="footer-bottom">
-        <span>&copy; {new Date().getFullYear()} Gurkha Force Security Ltd. All rights reserved.</span>
+      <div className="header-hamburger" onClick={handleHamburgerClick} aria-label="Toggle navigation" tabIndex={0} role="button">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-    </footer>
+      <nav className={`header-nav${menuOpen ? ' active' : ''}`}>
+        <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
+        <Link to="/services" onClick={() => setMenuOpen(false)}>Services</Link>
+        <Link to="/clients" onClick={() => setMenuOpen(false)}>Clients</Link>
+        <Link to="/requirements" onClick={() => setMenuOpen(false)}>Job Requirements</Link>
+        <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+      </nav>
+    </header>
   );
 }
 
-export default Footer;
+export default Header;
