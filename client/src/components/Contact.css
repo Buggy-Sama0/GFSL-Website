@@ -335,6 +335,10 @@
   .contact-map-wrapper {
     height: 300px;
   }
+
+  .contact-card {
+    height: 300px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -347,7 +351,7 @@
   }
   
   .contact-form {
-    padding: 1.5rem;
+    padding: 1rem;
   }
   
   .emergency-contact {
