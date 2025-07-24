@@ -14,7 +14,7 @@ function Home() {
           
         </div>
         <div className="hero-image">
-          <img src="/public/Company_Logo.png" alt="Company Logo" style={{maxWidth: '180px', borderRadius: '24px', boxShadow: '0 4px 32px rgba(26,42,58,0.18)'}} />
+          <img src="/Company_Logo.png" alt="Company Logo" style={{maxWidth: '180px', borderRadius: '24px', boxShadow: '0 4px 32px rgba(26,42,58,0.18)'}} />
         </div>
       </section>
 

@@ -77,6 +77,13 @@ function Clients() {
           <p className="client-name">Client 10</p>
           <p className="client-testimonial">"Client 10's testimonial goes here."</p>
         </div>
+        <div className="client-card">
+          <div className="client-logo-container">
+            <img src="/Paul_Y.png" alt="Client 11" className="client-logo" />
+          </div>
+          <p className="client-name">Client 11</p>
+          <p className="client-testimonial">"Client 11's testimonial goes here."</p>
+        </div>
       </div>
     </section>
   );
