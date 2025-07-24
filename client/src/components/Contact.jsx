@@ -46,7 +46,7 @@ const handleSubmit = async (e) => {
     formData.append("service", form.service);
     
     try {
-      const response = await axios.post(`${apiUrl}api/addForm`, formData, {
+      const response = await axios.post(`${apiUrl}api/apply`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },  

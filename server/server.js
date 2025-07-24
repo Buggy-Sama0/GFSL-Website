@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     res.send("Hello World");
 });
 
-app.post('/api/addForm', upload.array('document_files', 5), async (req, res) => {
+app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
     console.log('Files uploaded:', req.files);
     const { name, email, phone, service } = req.body;
     const fileNames = req.files.map(file => file.originalname).join(', ');
