@@ -76,6 +76,7 @@
   border-top: 4px solid var(--primary-accent);
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .contact-card:hover {
@@ -328,7 +329,7 @@
   
   .contact-info {
     grid-template-columns: 1fr;
-    /*gap: 1.5rem;*/
+    gap: 1.5rem;
   }
   
   .contact-map-wrapper {
