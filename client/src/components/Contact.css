@@ -337,7 +337,7 @@
   }
 
   .contact-card {
-    height: 300px;
+    align-items: center;
   }
 }
 
@@ -351,7 +351,7 @@
   }
   
   .contact-form {
-    padding: 1rem;
+    padding: 1.5rem;
   }
   
   .emergency-contact {
