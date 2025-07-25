@@ -6,7 +6,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-logo">
-          <img src="/public/Company_Logo.png" alt="Company Logo" />
+          <img src="/Company_Logo.png" alt="Company Logo" />
           <span className="footer-company">Gurkha Force Security Ltd</span>
         </div>
         <div className="footer-links">

@@ -13,7 +13,7 @@ function Header() {
     <header className="header">
       <div className="header-logo">
         <img 
-          src="/public/Company_Logo.png" 
+          src="/Company_Logo.png" 
           alt="Gurkha Force Security Limited Logo" 
         />
         <span className="company-name">Gurkha Force Security Ltd</span>
