@@ -6,6 +6,12 @@ const cors = require('cors');
 //const multer = require('multer');
 const PORT = process.env.PORT || 5000;
 const upload=require('./middleware/multer')
+const connectDB=require('./database/config')
+const mongoose=require('mongoose');
+const Applicant=require('./models/Applicant');
+
+// Connect To MongDB
+connectDB();
 
 // Set up Multer storage
 
@@ -20,22 +26,69 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-// Serve the React app
 
+// Setting up GridFs bucket
+let bucket;
+mongoose.connection.on('connected', () => {
+  bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName:'uploads',
+  });
+  console.log('GridFS Bucket initialized'); 
+});
+
+// Serve the React app
 app.get('/', (req, res) => {
     res.send("Hello World");
 });
 
+// Recieve Application API
 app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
+  try {
     console.log('Files uploaded:', req.files);
     const { name, email, phone, service } = req.body;
     const fileNames = req.files.map(file => file.originalname).join(', ');
+    const files=req.files.map(file => 'http://localhost:5000/api/download/files/'+file.id).join(' ');
     if(!name || !email || !phone || !service) {
-        console.log('No form data provided');    
-        return res.status(400).json({ error: 'No form data provided' });
+      console.log('No form data provided');    
+      return res.status(400).json({ error: 'No form data provided' });
+    } else if (!req.files) {
+      throw new Error();
     }
-    res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames });
+    await Applicant({
+      name: name,
+      email: email,
+      phone: phone,
+      service: service,
+      documents: files
+    }).save();
+    res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames, id: files });
+  } catch(err) {
+    console.error('Upload Error: ', err);
+  }
 })  
+
+// Download files API
+app.get('/api/download/files/:fileId', async (req, res) => {
+  try {
+    const {fileId}=req.params;
+    // Check if files exist
+    const file=await bucket.find({_id: new mongoose.Types.ObjectId(fileId)})
+    if (file.length===0) {
+      return res.status(404).json({error: { text:'File not found'}});
+    }
+    // set headers
+    //res.set('Content-Type', file.contentType);
+    //res.set('Content-Desposition', `attachment; filename=${file.filemame}`);
+    // create a stream to read from the bucket
+    const downloadStream=bucket.openDownloadStream(new mongoose.Types.ObjectId(fileId));
+    // pipe the stream to the response
+    downloadStream.pipe(res);
+  } catch(err) {
+    console.log(err);
+    res.status(400).json({error: { text:'Unable to download file', err}});
+  }
+})
+
 
 // Port configuration
 app.listen (PORT, () => {
