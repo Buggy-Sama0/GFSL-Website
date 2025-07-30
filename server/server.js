@@ -92,8 +92,13 @@ app.get('/api/download/files/:fileId', async (req, res) => {
 
 
 // Port configuration
+/*
 app.listen (PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
+});*/
+
+// Export for Vercel
+module.exports = app;
+
 
 
