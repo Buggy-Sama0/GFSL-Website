@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -9,6 +10,7 @@ const upload=require('./middleware/multer')
 const connectDB=require('./database/config')
 const mongoose=require('mongoose');
 const Applicant=require('./models/Applicant');
+console.log(process.env.BACKEND_DOMAIN);
 
 // Connect To MongDB
 connectDB();
@@ -20,9 +22,8 @@ connectDB();
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5173' || process.env.ALLOWED_ORIGINS,
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -47,7 +48,7 @@ app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
     console.log('Files uploaded:', req.files);
     const { name, email, phone, service } = req.body;
     const fileNames = req.files.map(file => file.originalname).join(', ');
-    const files=req.files.map(file => 'http://localhost:5000/api/download/files/'+file.id).join(' ');
+    const files=req.files.map(file => `${process.env.BACKEND_DOMAIN}/api/download/files/${file.id}`).join(' ');
     if(!name || !email || !phone || !service) {
       console.log('No form data provided');    
       return res.status(400).json({ error: 'No form data provided' });

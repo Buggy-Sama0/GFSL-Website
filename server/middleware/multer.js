@@ -28,7 +28,7 @@ conn.once('open', () => {
 
 /*
 var storage = new GridFsStorage({
-  url: 'mongodb+srv://Limbuc324:Onepiecered0806@cluster0.rws3wyg.mongodb.net/gfsl_application_data?retryWrites=true&w=majority&appName=Cluster0',
+  url: '',
   file: (req, file) => {
     console.log('Uploading file:', file); // Debug file object
     return new Promise((resolve, reject) => {
