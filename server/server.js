@@ -49,9 +49,58 @@ app.use((req, res, next) => {
 
 // Serve the React app
 app.get('/', (req, res) => {
-    res.send("Hello World");
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>GFSL Backend</title>
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f5f5f5;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        .container {
+          text-align: center;
+          padding: 2rem;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          max-width: 600px;
+        }
+        h1 {
+          color: #2c3e50;
+          margin-bottom: 1rem;
+        }
+        p {
+          color: #7f8c8d;
+          line-height: 1.6;
+        }
+        .status {
+          display: inline-block;
+          background: #2ecc71;
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 20px;
+          font-weight: bold;
+          margin-top: 1rem;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>GFSL Backend Service</h1>
+        <p>This is the backend API for GFSL website. The API is running successfully.</p>
+        <div class="status">Operational</div>
+      </div>
+    </body>
+    </html>
+  `);
 });
-
 // Recieve Application API
 app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
   try {
@@ -101,6 +150,24 @@ app.get('/api/download/files/:fileId', async (req, res) => {
     console.log(err);
     res.status(400).json({error: { text:'Unable to download file', err}});
   }
+})
+
+// Delete all files from the files collection
+app.get('/api/deleteAllFile', async (req, res) => {
+  const filesCollection = mongoose.connection.db.collection('uploads.files');
+  const chunksCollection = mongoose.connection.db.collection('uploads.chunks');
+  
+  const deleteFilesResult = await filesCollection.deleteMany({});
+  const deleteChunksResult = await chunksCollection.deleteMany({});
+
+  res.status(200).json({
+      success: true,
+      message: "All files deleted successfully",
+      stats: {
+        filesDeleted: deleteFilesResult.deletedCount,
+        chunksDeleted: deleteChunksResult.deletedCount
+      }
+    })
 })
 
 

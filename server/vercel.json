@@ -12,7 +12,6 @@
         "Access-Control-Allow-Origin": "https://gfsl-website.vercel.app",
         "Access-Control-Allow-Credentials": "true"
       }
-
     },
     {
       "src": "/(.*)",
