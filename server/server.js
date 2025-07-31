@@ -7,7 +7,7 @@ const cors = require('cors');
 //const multer = require('multer');
 const PORT = process.env.PORT || 5000;
 const upload=require('./middleware/multer')
-const connectDB=require('./database/config')
+const {connectDB, bucket}=require('./database/config')
 const mongoose=require('mongoose');
 const Applicant=require('./models/Applicant');
 console.log(process.env.BACKEND_DOMAIN);
@@ -32,13 +32,14 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions))
 
 // Setting up GridFs bucket
+/*
 let bucket;
 mongoose.connection.on('connected', () => {
   bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
     bucketName:'uploads',
   });
   console.log('GridFS Bucket initialized'); 
-});
+});*/
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS);
@@ -80,6 +81,9 @@ app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
 // Download files API
 app.get('/api/download/files/:fileId', async (req, res) => {
   try {
+    if(!bucket) {
+      return res.status(500).json({error: 'Server not ready'});
+    }
     const {fileId}=req.params;
     // Check if files exist
     const file=await bucket.find({_id: new mongoose.Types.ObjectId(fileId)})
