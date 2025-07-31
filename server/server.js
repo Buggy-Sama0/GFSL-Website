@@ -26,6 +26,7 @@ const corsOptions = {
   origin: ['http://localhost:5173', process.env.ALLOWED_ORIGINS],
   credentials: true,
 };
+//
 app.use(cors(corsOptions));
 // Handle preflight requests
 app.options('*', cors(corsOptions))
