@@ -27,6 +27,8 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+// Handle preflight requests
+app.options('*', cors(corsOptions))
 
 // Setting up GridFs bucket
 let bucket;
@@ -35,6 +37,12 @@ mongoose.connection.on('connected', () => {
     bucketName:'uploads',
   });
   console.log('GridFS Bucket initialized'); 
+});
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS);
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
 });
 
 // Serve the React app
