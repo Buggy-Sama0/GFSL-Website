@@ -154,20 +154,30 @@ app.get('/api/download/files/:fileId', async (req, res) => {
 
 // Delete all files from the files collection
 app.get('/api/deleteAllFile', async (req, res) => {
-  const filesCollection = mongoose.connection.db.collection('uploads.files');
-  const chunksCollection = mongoose.connection.db.collection('uploads.chunks');
-  
-  const deleteFilesResult = await filesCollection.deleteMany({});
-  const deleteChunksResult = await chunksCollection.deleteMany({});
+  try {
+    const filesCollection = mongoose.connection.db.collection('uploads.files');
+    const chunksCollection = mongoose.connection.db.collection('uploads.chunks');
+    
+    const deleteFilesResult = await filesCollection.deleteMany({});
+    const deleteChunksResult = await chunksCollection.deleteMany({});
 
-  res.status(200).json({
-      success: true,
-      message: "All files deleted successfully",
-      stats: {
-        filesDeleted: deleteFilesResult.deletedCount,
-        chunksDeleted: deleteChunksResult.deletedCount
-      }
-    })
+    res.status(200).json({
+        success: true,
+        message: "All files deleted successfully",
+        stats: {
+          filesDeleted: deleteFilesResult.deletedCount,
+          chunksDeleted: deleteChunksResult.deletedCount
+        }
+      })
+
+  } catch (err) {
+    console.error("Delete all files error:", err);
+    res.status(500).json({
+      success: false,
+      error: "Failed to delete files",
+      details: err.message
+    });
+  }
 })
 
 
