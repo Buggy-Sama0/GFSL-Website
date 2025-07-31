@@ -23,7 +23,7 @@ connectDB();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 const corsOptions = {
-  origin: 'http://localhost:5173' || process.env.ALLOWED_ORIGINS,
+  origin: ['http://localhost:5173', process.env.ALLOWED_ORIGINS],
   credentials: true,
 };
 app.use(cors(corsOptions));
