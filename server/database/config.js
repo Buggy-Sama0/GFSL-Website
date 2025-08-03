@@ -1,10 +1,9 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-//let bucket;
-let connection;
+let bucket;
 const connectDB = async () => {
     try {
-        connection = await mongoose.createConnection( process.env.MONGODB_URI, {
+        const connection = await mongoose.connect( process.env.MONGODB_URI, {
             serverSelectionTimeoutMS: 30000,
             socketTimeoutMS: 0, // Never timeout
             keepAlive: true,
@@ -17,10 +16,10 @@ const connectDB = async () => {
             connectTimeoutMS: 30000
         });
         //Initialize GridFs Bucket after connection
-        /*
-        bucket=new mongoose.mongo.GridFSBucket(conn.connection.db, {
+        
+        bucket=new mongoose.mongo.GridFSBucket(connection.connection.db, {
             bucketName:'uploads'
-        })*/
+        })
 
         connection.on('error', (err) => {
             console.error('MongoDB connection error:', err);
@@ -32,13 +31,15 @@ const connectDB = async () => {
             connection = null;
             setTimeout(connectDB, 1000);
         });
-        console.log(`MongoDB Connected ${conn.connection.host}`);
+
+        console.log(`MongoDB Connected ${connection.connection.host}`);
         return connection; // Return the connection
     } catch(err) {
         console.error('Error connecting to MongoDB: ', err.message);
         setTimeout(connectDB, 5000);
     }
 };
+
 /*
 // Connection event handlers
 mongoose.connection.on('connected', () => {
@@ -51,16 +52,4 @@ mongoose.connection.on('disconnected', () => {
     connectDB(); // Auto-reconnect
 });*/
 
-// Keep-alive ping
-setInterval(async () => {
-  if (connection?.readyState === 1) {
-    try {
-      await connection.db.admin().ping();
-    } catch (err) {
-      console.error('Keep-alive ping failed:', err);
-      connection = null;
-    }
-  }
-}, 300000); // 5 minutes
-
-module.exports = {connectDB, getConnection: () => connection};
+module.exports = {connectDB, bucket};

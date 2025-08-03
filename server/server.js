@@ -7,15 +7,14 @@ const cors = require('cors');
 //const multer = require('multer');
 const PORT = process.env.PORT || 5000;
 const upload=require('./middleware/multer')
-const { connectDB, getConnection }=require('./database/config')
+const { connectDB, bucket }=require('./database/config')
 const mongoose=require('mongoose');
 const Applicant=require('./models/Applicant');
 console.log(process.env.BACKEND_DOMAIN);
 
-
+/*
 let dbConnection;
 let bucket;
-
 const initializeDB=async () => {
   try {
     dbConnection=await connectDB();
@@ -30,7 +29,7 @@ const initializeDB=async () => {
 }
 
 initializeDB()
-
+*/
 
 /*
 mongoose.connection.on('connected', () => {
@@ -41,11 +40,11 @@ mongoose.connection.on('connected', () => {
 });*/
 
 // Connect To MongDB
-//connectDB();
+connectDB();
 
 // middleware to check status
 app.use((req, res, next) => {
-  if (dbConnection.readyState!==1) {
+  if (mongoose.connection.readyState!==1) {
     return res.status(500).json({
       error: 'Database initializing',
       status: 'Please try again in a few seconds'
@@ -170,8 +169,7 @@ app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
 // Download files API
 app.get('/api/download/files/:fileId', async (req, res) => {
   try {
-    const connection = getConnection();
-    if (!connection || connection.readyState !== 1) {
+    if (mongoose.connection.readyState !== 1) {
       throw new Error('Database not connected');
     }
     // Verify Mongoose Connection
