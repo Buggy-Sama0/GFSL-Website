@@ -3,22 +3,31 @@ const mongoose = require('mongoose');
 //let bucket;
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(
-            process.env.MONGODB_URI
-        );
-
+        const conn = await mongoose.connect( process.env.MONGODB_URI, {
+            serverSelectionTimeoutMS: 30000, // 30 seconds
+            socketTimeoutMS: 45000, // 45 seconds
+            maxPoolSize: 10,
+            retryWrites: true,
+            retryReads: true
+            
+        });
         //Initialize GridFs Bucket after connection
         /*
         bucket=new mongoose.mongo.GridFSBucket(conn.connection.db, {
             bucketName:'uploads'
         })*/
-
-        console.log(`MongoDB Connected and GridFS Bucket initialized: ${conn.connection.host}`);
+        console.log(`MongoDB Connected ${conn.connection.host}`);
         return conn; // Return the connection
     } catch(err) {
         console.error('Error connecting to MongoDB: ', err.message);
-        process.exit(1);
+        setTimeout(connectDB, 5000);
     }
 };
+
+// Event listeners for connection issues
+mongoose.connection.on('disconnected', () => {
+    console.log('MingoDB disconnected');
+    connectDB(); // Auto-reconnect
+});
 
 module.exports = connectDB;

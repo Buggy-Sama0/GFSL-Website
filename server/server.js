@@ -106,7 +106,7 @@ app.get('/', (req, res) => {
 // TEST DB
 app.get('/api/test-db', async (req, res) => {
   try {
-    const stats=mongoose.connection.db.stats();
+    const stats=await mongoose.connection.db.stats().ok;
     res.json({seccess: true, stats});
   } catch (err) {
     res.status(500).json({error: err.message});
@@ -142,6 +142,11 @@ app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
 // Download files API
 app.get('/api/download/files/:fileId', async (req, res) => {
   try {
+    // Verify Mongoose Connection
+    if (mongoose.connection.readyState!==1) {
+      throw new Error('Database not connected');
+    }
+
     if(!bucket) {
       return res.status(500).json({error: 'Server not ready'});
     }
@@ -156,6 +161,13 @@ app.get('/api/download/files/:fileId', async (req, res) => {
     //res.set('Content-Desposition', `attachment; filename=${file.filemame}`);
     // create a stream to read from the bucket
     const downloadStream=bucket.openDownloadStream(new mongoose.Types.ObjectId(fileId));
+
+    downloadStream.on('error', (err) => {
+      console.error('Download stream error:', err);
+      if (!res.headersSent) {
+        res.status(500).json({ error: 'File stream error' });
+      }
+    });
     // pipe the stream to the response
     downloadStream.pipe(res);
   } catch(err) {
