@@ -181,7 +181,8 @@ app.get('/api/download/files/:fileId', async (req, res) => {
     }*/
     const {fileId}=req.params;
     // Check if files exist
-    const file=await bucket.find({_id: new mongoose.Types.ObjectId(fileId)})
+    //const file=await bucket.find({_id: new mongoose.Types.ObjectId(fileId)})
+    const file=await mongoose.connection.db.collection('uploads.files').find({_id: new mongoose.Types.ObjectId(fileId)}).toArray();
     if (file.length===0) {
       return res.status(404).json({error: { text:'File not found'}});
     }
@@ -232,7 +233,6 @@ app.get('/api/deleteAllFile', async (req, res) => {
     });
   }
 })
-
 
 // Port configuration
 /*
