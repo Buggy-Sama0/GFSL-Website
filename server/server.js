@@ -102,6 +102,17 @@ app.get('/', (req, res) => {
     </html>
   `);
 });
+
+// TEST DB
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const stats=mongoose.connection.db.stats();
+    res.json({seccess: true, stats});
+  } catch (err) {
+    res.status(500).json({error: err.message});
+  }
+})
+
 // Recieve Application API
 app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
   try {
