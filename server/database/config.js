@@ -17,7 +17,7 @@ const connectDB = async () => {
             bucketName:'uploads'
         })*/
         console.log(`MongoDB Connected ${conn.connection.host}`);
-        // return conn; // Return the connection
+        return conn; // Return the connection
     } catch(err) {
         console.error('Error connecting to MongoDB: ', err.message);
         setTimeout(connectDB, 5000);
