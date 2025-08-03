@@ -8,9 +8,10 @@ const connectDB = async () => {
         );
 
         //Initialize GridFs Bucket after connection
+        /*
         bucket=new mongoose.mongo.GridFSBucket(conn.connection.db, {
             bucketName:'uploads'
-        })
+        })*/
 
         console.log(`MongoDB Connected and GridFS Bucket initialized: ${conn.connection.host}`);
         return conn; // Return the connection

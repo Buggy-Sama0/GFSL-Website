@@ -15,6 +15,17 @@ console.log(process.env.BACKEND_DOMAIN);
 // Connect To MongDB
 connectDB();
 
+// Setting up GridFs bucket
+
+let bucket;
+mongoose.connection.on('connected', () => {
+  bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName:'uploads',
+  });
+  console.log('GridFS Bucket initialized'); 
+});
+
+
 // Set up Multer storage
 
 //const upload = multer({ dest: 'public/' });
@@ -30,16 +41,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // Handle preflight requests
 app.options('*', cors(corsOptions))
-
-// Setting up GridFs bucket
-/*
-let bucket;
-mongoose.connection.on('connected', () => {
-  bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-    bucketName:'uploads',
-  });
-  console.log('GridFS Bucket initialized'); 
-});*/
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGINS);
