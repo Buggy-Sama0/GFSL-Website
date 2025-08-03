@@ -198,7 +198,7 @@ app.get('/api/download/files/:fileId', async (req, res) => {
       }
     });
     // In your download endpoint
-    await Applicant.find()
+    //await Applicant.find()
     // pipe the stream to the response
     downloadStream.pipe(res);
   } catch(err) {
