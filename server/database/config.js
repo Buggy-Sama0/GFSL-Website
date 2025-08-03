@@ -1,6 +1,5 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-let bucket;
 const connectDB = async () => {
     try {
         const connection = await mongoose.connect( process.env.MONGODB_URI, {
@@ -14,14 +13,6 @@ const connectDB = async () => {
             retryWrites: true,
             retryReads: true,
             connectTimeoutMS: 30000
-        });
-        //Initialize GridFs Bucket after connection
-        
-        mongoose.connection.on('connected', () => {
-            bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-                bucketName:'uploads',
-            });
-            console.log('GridFS Bucket initialized'); 
         });
 
         connection.on('error', (err) => {
@@ -55,4 +46,4 @@ mongoose.connection.on('disconnected', () => {
     connectDB(); // Auto-reconnect
 });*/
 
-module.exports = {connectDB, bucket};
+module.exports = connectDB;

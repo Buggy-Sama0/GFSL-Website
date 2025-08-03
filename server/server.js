@@ -14,7 +14,6 @@ console.log(process.env.BACKEND_DOMAIN);
 
 /*
 let dbConnection;
-let bucket;
 const initializeDB=async () => {
   try {
     dbConnection=await connectDB();
@@ -30,14 +29,13 @@ const initializeDB=async () => {
 
 initializeDB()
 */
-
-/*
+let bucket;
 mongoose.connection.on('connected', () => {
   bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
     bucketName:'uploads',
   });
   console.log('GridFS Bucket initialized'); 
-});*/
+});
 
 // Connect To MongDB
 connectDB();
