@@ -17,9 +17,12 @@ const connectDB = async () => {
         });
         //Initialize GridFs Bucket after connection
         
-        bucket=new mongoose.mongo.GridFSBucket(connection.connection.db, {
-            bucketName:'uploads'
-        })
+        mongoose.connection.on('connected', () => {
+            bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+                bucketName:'uploads',
+            });
+            console.log('GridFS Bucket initialized'); 
+        });
 
         connection.on('error', (err) => {
             console.error('MongoDB connection error:', err);
