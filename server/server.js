@@ -7,7 +7,7 @@ const cors = require('cors');
 //const multer = require('multer');
 const PORT = process.env.PORT || 5000;
 const upload=require('./middleware/multer')
-const {connectDB, bucket}=require('./database/config')
+const connectDB=require('./database/config')
 const mongoose=require('mongoose');
 const Applicant=require('./models/Applicant');
 console.log(process.env.BACKEND_DOMAIN);
