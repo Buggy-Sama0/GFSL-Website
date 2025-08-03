@@ -16,7 +16,6 @@ console.log(process.env.BACKEND_DOMAIN);
 connectDB();
 
 // Setting up GridFs bucket
-
 let bucket;
 mongoose.connection.on('connected', () => {
   bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
@@ -24,7 +23,6 @@ mongoose.connection.on('connected', () => {
   });
   console.log('GridFS Bucket initialized'); 
 });
-
 
 // Set up Multer storage
 
@@ -144,17 +142,7 @@ app.get('/api/download/files/:fileId', async (req, res) => {
   try {
     // Verify Mongoose Connection
     if (mongoose.connection.readyState!==1) {
-      //throw new Error('Database not connected');
-      // Connect To MongDB
-      connectDB();
-
-      // Setting up GridFs bucket
-      mongoose.connection.on('connected', () => {
-        bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-          bucketName:'uploads',
-        });
-        console.log('GridFS Bucket initialized'); 
-      });
+      throw new Error('Database not connected');
     }
     /*
     if(!bucket) {
