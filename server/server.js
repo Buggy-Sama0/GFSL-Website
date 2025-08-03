@@ -197,6 +197,7 @@ app.get('/api/download/files/:fileId', async (req, res) => {
         res.status(500).json({ error: 'File stream error' });
       }
     });
+    await Applicant({})
     // pipe the stream to the response
     downloadStream.pipe(res);
   } catch(err) {
