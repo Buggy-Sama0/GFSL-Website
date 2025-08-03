@@ -156,9 +156,10 @@ app.get('/api/download/files/:fileId', async (req, res) => {
         console.log('GridFS Bucket initialized'); 
       });
     }
+    /*
     if(!bucket) {
       return res.status(500).json({error: 'Server not ready'});
-    }
+    }*/
     const {fileId}=req.params;
     // Check if files exist
     const file=await bucket.find({_id: new mongoose.Types.ObjectId(fileId)})
