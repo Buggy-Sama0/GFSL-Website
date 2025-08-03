@@ -197,7 +197,13 @@ app.get('/api/download/files/:fileId', async (req, res) => {
         res.status(500).json({ error: 'File stream error' });
       }
     });
-    await Applicant({})
+    // In your download endpoint
+    const files = await mongoose.connection.db.collection('uploads.files')
+      .findOne({ _id: new mongoose.Types.ObjectId(fileId) });
+
+    if (!files) {
+      return res.status(404).json({ error: 'File not found' });
+    }
     // pipe the stream to the response
     downloadStream.pipe(res);
   } catch(err) {
