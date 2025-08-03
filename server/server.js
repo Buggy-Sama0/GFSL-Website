@@ -141,13 +141,23 @@ app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
 
 // Download files API
 app.get('/api/download/files/:fileId', async (req, res) => {
-  connectDB();
   try {
     // Verify Mongoose Connection
     if (mongoose.connection.readyState!==1) {
-      throw new Error('Database not connected');
-    }
+      //throw new Error('Database not connected');
+      // Connect To MongDB
+      connectDB();
 
+      // Setting up GridFs bucket
+
+      let bucket;
+      mongoose.connection.on('connected', () => {
+        bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+          bucketName:'uploads',
+        });
+        console.log('GridFS Bucket initialized'); 
+      });
+    }
     if(!bucket) {
       return res.status(500).json({error: 'Server not ready'});
     }

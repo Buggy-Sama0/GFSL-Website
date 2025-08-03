@@ -24,6 +24,11 @@ const connectDB = async () => {
     }
 };
 
+// Connection event handlers
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose connected to DB');
+})
+
 // Event listeners for connection issues
 mongoose.connection.on('disconnected', () => {
     console.log('MingoDB disconnected');
