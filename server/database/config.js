@@ -14,7 +14,7 @@ const connectDB = async () => {
             retryReads: true,
             connectTimeoutMS: 30000
         });
-
+        /*
         connection.on('error', (err) => {
             console.error('MongoDB connection error:', err);
             connection = null;
@@ -22,9 +22,8 @@ const connectDB = async () => {
 
         connection.on('disconnected', () => {
             console.log('MongoDB disconnected - reconnecting');
-            connection = null;
             setTimeout(connectDB, 1000);
-        });
+        });*/
 
         console.log(`MongoDB Connected ${connection.connection.host}`);
         return connection; // Return the connection
