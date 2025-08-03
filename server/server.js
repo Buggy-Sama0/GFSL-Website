@@ -149,8 +149,6 @@ app.get('/api/download/files/:fileId', async (req, res) => {
       connectDB();
 
       // Setting up GridFs bucket
-
-      let bucket;
       mongoose.connection.on('connected', () => {
         bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
           bucketName:'uploads',
