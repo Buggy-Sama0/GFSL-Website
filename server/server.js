@@ -141,6 +141,7 @@ app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
 
 // Download files API
 app.get('/api/download/files/:fileId', async (req, res) => {
+  connectDB();
   try {
     // Verify Mongoose Connection
     if (mongoose.connection.readyState!==1) {
