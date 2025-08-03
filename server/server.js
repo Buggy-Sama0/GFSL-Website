@@ -18,8 +18,8 @@ let bucket;
 
 const initializeDB=async () => {
   try {
-    dbConnection=await connectDB;
-    bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    dbConnection=await connectDB();
+    bucket=new mongoose.mongo.GridFSBucket(dbConnection.db, {
       bucketName:'uploads',
     });
     console.log('Database and GridFS ready');
