@@ -15,6 +15,17 @@ console.log(process.env.BACKEND_DOMAIN);
 // Connect To MongDB
 connectDB();
 
+// middleware to check status
+app.use((req, res, next) => {
+  if (!mongoose.connection.readyState===1) {
+    return res.status(500).json({
+      error: 'Database initializing',
+      status: 'Please try again in a few seconds'
+    });
+  }
+  next();
+})
+
 // Setting up GridFs bucket
 let bucket;
 mongoose.connection.on('connected', () => {
