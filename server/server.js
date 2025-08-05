@@ -29,6 +29,10 @@ const initializeDB=async () => {
 
 initializeDB()
 */
+
+// Connect To MongDB
+connectDB();
+
 let bucket;
 mongoose.connection.on('connected', () => {
   bucket=new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
@@ -37,8 +41,7 @@ mongoose.connection.on('connected', () => {
   console.log('GridFS Bucket initialized'); 
 });
 
-// Connect To MongDB
-connectDB();
+
 
 // middleware to check status
 app.use((req, res, next) => {
