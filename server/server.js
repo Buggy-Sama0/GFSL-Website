@@ -43,7 +43,8 @@ mongoose.connection.on('connected', () => {
 
 
 
-// middleware to check status
+// middleware to check status 
+/*
 app.use((req, res, next) => {
   if (mongoose.connection.readyState!==1) {
     return res.status(500).json({
@@ -52,7 +53,7 @@ app.use((req, res, next) => {
     });
   }
   next();
-})
+})*/
 
 // Set up Multer storage
 
