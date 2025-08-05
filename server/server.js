@@ -172,7 +172,8 @@ app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
 app.get('/api/download/files/:fileId', async (req, res) => {
   try {
     if (mongoose.connection.readyState !== 1) {
-      throw new Error('Database not connected');
+      //throw new Error('Database not connected');
+      await connectDB();
     }
     // Verify Mongoose Connection
     /*
