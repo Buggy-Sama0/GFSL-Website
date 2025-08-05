@@ -33,7 +33,7 @@ const connectDB = async () => {
     }
 };
 
-/*
+
 // Connection event handlers
 mongoose.connection.on('connected', () => {
   console.log('Mongoose connected to DB');
@@ -43,6 +43,6 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('disconnected', () => {
     console.log('MingoDB disconnected');
     connectDB(); // Auto-reconnect
-});*/
+});
 
 module.exports = connectDB;
