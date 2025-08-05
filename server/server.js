@@ -196,12 +196,13 @@ app.get('/api/download/files/:fileId', async (req, res) => {
     // create a stream to read from the bucket
     const downloadStream=bucket.openDownloadStream(new mongoose.Types.ObjectId(fileId));
 
+    /*
     downloadStream.on('error', (err) => {
       console.error('Download stream error:', err);
       if (!res.headersSent) {
         res.status(500).json({ error: 'File stream error' });
       }
-    });
+    });*/
     // In your download endpoint
     //await Applicant.find()
     // pipe the stream to the response
