@@ -118,11 +118,27 @@ const handleSubmit = async (e) => {
       <div>
           <h3>Application Form</h3>
           {submitted &&
-            <div className="contact-success enhanced-success">
-              <span className="success-icon" aria-label="Success">&#10003;</span>
-              <span className="success-text">Thank you! We will get back to you soon.</span>
-              <button className="success-close" onClick={()=> setSubmitted(false)} aria-label="Close">&times;</button>
-            </div>
+            <div className="contact-success"
+            style={{
+              position: 'relative',
+              padding: '1rem',
+              margin: '1rem 0',
+              background: '#d4edda',
+              color: '#155724',
+              borderRadius: '4px'
+            }}>
+              Thank you! We will get back to you soon.
+              <button onClick={()=> setSubmitted(false)}
+                style={{
+                position: 'absolute',
+                top: '0.5rem',
+                right: '0.5rem',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: '1rem'
+              }}>X</button>
+            </div> 
           }
             <form className="contact-form" onSubmit={handleSubmit}>
               <input name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required />
