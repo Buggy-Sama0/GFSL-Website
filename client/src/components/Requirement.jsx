@@ -38,7 +38,9 @@ function Requirements() {
 const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if(!files) {
+    if(!files || files.length === 0) {
+      setError('Please attach at least one document.');
+      setLoading(false);
       return;
     }
     // Here you would handle sending the form data
@@ -61,7 +63,7 @@ const handleSubmit = async (e) => {
       console.log('Form Data Submitted:', response.data);
       console.log('File _id: ', response.data.id);
       setFileId(response.data.id);
-      setFiles(null);
+      setFiles([]);
       setSubmitted(true);
     } catch (error) {
       console.log('Error submitting form:', error);
