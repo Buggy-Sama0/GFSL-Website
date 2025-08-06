@@ -38,8 +38,6 @@ function Requirements() {
 const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSubmitted(true);
-
     if(!files) {
       return;
     }
@@ -63,16 +61,19 @@ const handleSubmit = async (e) => {
       console.log('Form Data Submitted:', response.data);
       console.log('File _id: ', response.data.id);
       setFileId(response.data.id);
-      setForm(initialState);
       setFiles(null);
+      setSubmitted(true);
     } catch (error) {
       console.log('Error submitting form:', error);
-      setError('There was an error submitting your form. Please try again later.');
+      setError('There was an error submitting your form. Please try again later.');      
       setSubmitted(false);
     } finally {
       setLoading(false);
-      setForm(initialState);
-      setFiles([]);
+      //setForm(initialState);
+      //setFiles([]);
+      setTimeout(() => {
+        setError(null);
+      }, 4000)
     }
   };
 
@@ -117,27 +118,11 @@ const handleSubmit = async (e) => {
       <div>
           <h3>Application Form</h3>
           {submitted &&
-            <div className="contact-success"
-            style={{
-              position: 'relative',
-              padding: '1rem',
-              margin: '1rem 0',
-              background: '#d4edda',
-              color: '#155724',
-              borderRadius: '4px'
-            }}>
-              Thank you! We will get back to you soon.
-              <button onClick={()=> setSubmitted(false)}
-                style={{
-                position: 'absolute',
-                top: '0.5rem',
-                right: '0.5rem',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: '1rem'
-              }}>X</button>
-            </div> 
+            <div className="contact-success enhanced-success">
+              <span className="success-icon" aria-label="Success">&#10003;</span>
+              <span className="success-text">Thank you! We will get back to you soon.</span>
+              <button className="success-close" onClick={()=> setSubmitted(false)} aria-label="Close">&times;</button>
+            </div>
           }
             <form className="contact-form" onSubmit={handleSubmit}>
               <input name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required />
@@ -157,7 +142,13 @@ const handleSubmit = async (e) => {
                     </div>
                 )}
               </div>
-              {error && <div style={{ color: 'var(--secondary-accent)', marginTop: '1rem'}}>{error}</div>}
+              {error && (
+                <div className={`error-message${error ? ' show' : ''}`}>
+                  <span className="error-icon" aria-label="Error">&#9888;</span>
+                  <span className="error-text">{error}</span>
+                  <button className="error-close" onClick={() => setError(null)} aria-label="Close">&times;</button>
+                </div>
+              )}
 
               <button type="submit" className="cta-btn">
                 {loading ? 'Submitting...' : 'Submit'}
