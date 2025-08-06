@@ -143,7 +143,7 @@ app.get('/api/test-db', async (req, res) => {
 })
 
 // Recieve Application API
-app.post('/api/apply', upload.array('document_files', 5), async (req, res) => {
+app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
   try {
     console.log('Files uploaded:', req.files);
     const { name, email, phone, service } = req.body;
