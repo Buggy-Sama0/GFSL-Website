@@ -38,7 +38,8 @@ function Requirements() {
 const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if(!files) {
+    if(!files || files.length==0) {
+      setError('Please attcah atleast one document!')
       return;
     }
     // Here you would handle sending the form data
