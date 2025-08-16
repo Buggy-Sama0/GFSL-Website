@@ -74,9 +74,10 @@ const handleSubmit = async (e) => {
       setSubmitted(false);
     } finally {
       setLoading(false);
+      /*
       setTimeout(() => {
         setError(null);
-      }, 4000)
+      }, 4000)*/
     }
   };
 
