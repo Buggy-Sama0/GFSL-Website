@@ -67,7 +67,9 @@ const handleSubmit = async (e) => {
       setForm(initialState);
     } catch (error) {
       console.log('Error submitting form:', error);
-      setError('There was an error submitting your form. Please try again later.');      
+      //setError('There was an error submitting your form. Please try again later.');  
+      const serverMsg = error.response?.data || error.message; //*** */
+      setError(typeof serverMsg === 'string' ? serverMsg : JSON.stringify(serverMsg)); /** */   
       setSubmitted(false);
     } finally {
       setLoading(false);
