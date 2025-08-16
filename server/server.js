@@ -60,10 +60,8 @@ app.use((req, res, next) => {
 //const upload = multer({ dest: 'public/' });
 // Middleware to serve static files
 //app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ limit: '200mb' }));
+app.use(express.urlencoded({ limit: '200mb', extended: true }));
 const corsOptions = {
   origin: ['http://localhost:5173', process.env.ALLOWED_ORIGINS],
   credentials: true,
