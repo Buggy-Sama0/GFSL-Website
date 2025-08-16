@@ -168,6 +168,15 @@ app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
   }
 })  
 
+// Globally handle multer errors so client sees reason
+app.use((err, req, res, next) => {
+  if (err && err.name === 'MulterError') {
+    console.error('Multer error:', err);
+    return res.status(400).json({ error: 'Upload error', code: err.code, message: err.message });
+  }
+  next(err)
+})
+
 // Download files API
 app.get('/api/download/files/:fileId', async (req, res) => {
   try {

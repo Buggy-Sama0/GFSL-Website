@@ -58,6 +58,7 @@ const handleSubmit = async (e) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },  
+        timeout: 120000,
       });
       console.log('Form Data Submitted:', response.data);
       console.log('File _id: ', response.data.id);
