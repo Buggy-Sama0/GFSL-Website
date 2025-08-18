@@ -160,7 +160,15 @@ app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
       email: email,
       phone: phone,
       service: service,
-      documents: files
+      document_1: files[0],
+      document_2: files[1],
+      document_3: files[2],
+      document_4: files[3],
+      document_5: files[4],
+      document_6: files[5],
+      document_7: files[6],
+      document_8: files[7],
+      document_9: files[8],
     }).save();
     res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames, id: files });
   } catch(err) {

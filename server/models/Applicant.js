@@ -5,7 +5,15 @@ const applicantSchema=new mongoose.Schema({
     email: String,
     phone: Number,
     service: String,
-    documents: String
+    document_1: String,
+    document_2: String,
+    document_3: String,
+    document_4: String,
+    document_5: String,
+    document_6: String,
+    document_7: String,
+    document_8: String,
+    document_9: String,
 });
 
 const Applicant=mongoose.model('Applicant', applicantSchema);

@@ -139,7 +139,15 @@ const handleSubmit = async (e) => {
 
               <div className="form-group">
                 <label>Attach Documents (HKID, Safety Card, CWR Card, etc)</label>
-                <input type="file" name="files" onChange={handleFileChange} multiple/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
                 {files.length > 0 && (
                     <div style={{ marginTop: '0.5rem' }}>
                       <small>Selected files: {Object.entries(files).map(([key, file])=> file.name).join(', ')}</small>
