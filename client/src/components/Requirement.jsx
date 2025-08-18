@@ -38,12 +38,11 @@ function Requirements() {
       console.log('files ->', next);
       return next;
     });
-    //console.log('File State:', (prev) => [...prev, files]);  
   };
 
   useEffect(() => {
-  console.log('File State changed:', files);
-}, [files]);
+    console.log('File State changed:', files);
+  }, [files]);
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,6 +54,7 @@ const handleSubmit = async (e) => {
     // Here you would handle sending the form data
     const formData=new FormData();
     for (let file of files) {
+      console.log(file);
       formData.append("document_files", file)
     }
     // Append each form field individually
