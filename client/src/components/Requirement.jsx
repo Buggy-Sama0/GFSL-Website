@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Requirement.css';
 import axios from 'axios';
 
@@ -38,8 +38,12 @@ function Requirements() {
       console.log('files ->', next);
       return next;
     });
-    console.log('File State:', (prev) => [...prev, files]);  
+    //console.log('File State:', (prev) => [...prev, files]);  
   };
+
+  useEffect(() => {
+  console.log('File State changed:', files);
+}, [files]);
 
 const handleSubmit = async (e) => {
     e.preventDefault();
