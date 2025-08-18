@@ -31,12 +31,10 @@ function Requirements() {
   };
 
   const handleFileChange = (e) => {
-    const newFiles = Array.from(e.target.files);           // convert FileList -> File[]
-    console.log(e.target.files);
-    console.log(newFiles);
+    const newFiles = Array.from(e.target.files); // convert FileList -> File[]
     setFiles(prev =>
-       {
-      const next = [...prev, ...newFiles];                 // merge with existing files
+      {
+      const next = [...prev, ...newFiles]; // merge with existing files
       console.log('files ->', next);
       return next;
     });
