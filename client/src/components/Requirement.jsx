@@ -30,12 +30,12 @@ function Requirements() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Professional: handle per-input file selection
-  const handleFileChange = (e, idx) => {
-    const file = e.target.files[0];
-    setFiles(prev => {
-      const next = [...prev];
-      next[idx] = file;
+  const handleFileChange = (e) => {
+    const newFiles = Array.from(e.target.files); // convert FileList -> File[]
+    setFiles(prev =>
+      {
+      const next = [...prev, ...newFiles]; // merge with existing files
+      //console.log('files ->', next);
       return next;
     });
   };
@@ -165,23 +165,22 @@ const handleSubmit = async (e) => {
               </select>
 
               <div className="form-group">
-                <label>Attach the following documents in order:</label>
-                <div className="document-upload-list">
-                  {requirements.map((req, idx) => (
-                    <div key={idx} style={{ marginBottom: '0.75rem' }}>
-                      <label htmlFor={`file-input-${idx}`} style={{ display: 'block', fontWeight: 500, marginBottom: '0.2rem' }}>
-                        {req.name} <span style={{ fontWeight: 400, color: '#666', fontSize: '0.95em' }}>({req.description})</span>
-                      </label>
-                      <input
-                        id={`file-input-${idx}`}
-                        type="file"
-                        name={`file${idx + 1}`}
-                        onChange={handleFileChange}
-                        style={{ display: 'inline-block' }}
-                      />
+                <label>Attach Documents (HKID, Safety Card, CWR Card, etc)</label>
+                <input id='file-input' type="file" name="files" onChange={handleFileChange}/>
+                <label for='file-input'>Choose images to upload (PNG, JPG)</label>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                <input type="file" name="files" onChange={handleFileChange}/>
+                {files.length > 0 && (
+                    <div style={{ marginTop: '0.5rem' }}>
+                      <small>Selected files: {Object.entries(files).map(([key, file])=> file.name).join(', ')}</small>
                     </div>
-                  ))}
-                </div>
+                )}
               </div>
               {error && (
                 <div className={`error-message${error ? ' show' : ''}`}>
