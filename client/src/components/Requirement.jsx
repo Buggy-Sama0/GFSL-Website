@@ -82,7 +82,7 @@ const handleSubmit = async (e) => {
     
     try {
       const response = await axios.post(`${apiUrl}/api/apply`, formData, {
-        headers: {'Content-Type':'multipart/form-data'},
+        //headers: {'Content-Type':'multipart/form-data'},
         timeout: 180000,
       });
       console.log('Form Data Submitted:', response.data);
