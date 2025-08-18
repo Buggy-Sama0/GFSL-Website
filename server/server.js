@@ -154,12 +154,9 @@ app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
     if (!name || !email || !phone || !service) {
       console.log('No form data provided');
       return res.status(400).json({ error: 'No form data provided' });
+    } else if (!req.files) {
+      throw new Error();
     }
-
-    if (uploadedFiles.length === 0) {
-      return res.status(400).json({ error: 'No files uploaded' });
-    }
-
     await Applicant({
       name,
       email,
@@ -175,21 +172,13 @@ app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
       document_8: files[7] || null,
       document_9: files[8] || null,
     }).save();
-
-    return res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames, id: files });
-  } catch (err) {
+    res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames, id: files });
+  } catch(err) {
     console.error('Upload Error: ', err);
-    if (err && err.name === 'MulterError') {
-      return res.status(400).json({ error: 'Upload error', code: err.code, message: err.message });
-    }
-    if (err && (err.type === 'entity.too.large' || err.status === 413)) {
-      return res.status(413).json({ error: 'Request entity too large', message: err.message });
-    }
-    return res.status(500).json({ error: 'Server error', message: err.message });
   }
-});
+})  
 
-// Global error handler for multer and payload-too-large
+// Globally handle multer errors so client sees reason
 app.use((err, req, res, next) => {
   if (!err) return next();
   console.error('Global error handler:', err && err.message ? err.message : err);
