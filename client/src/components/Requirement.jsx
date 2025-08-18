@@ -32,7 +32,7 @@ function Requirements() {
 
   const handleFileChange = e => {
     setFiles(e.target.files)
-    //console.log(e.target.files); 
+    console.log(e.target.files); 
   };
 
 const handleSubmit = async (e) => {
