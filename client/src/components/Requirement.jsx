@@ -60,9 +60,10 @@ const handleSubmit = async (e) => {
       console.log('Form Data: ', formData);
     }*/
 
-    Array.from(files).forEach((file) => formData.append("document_files", file))
-    console.log(formData);
-    
+    files.forEach((file) => {
+      console.log('Appending file:', file.name, file.size, file.type);
+      formData.append('document_files', file);
+    });
 
     // Append each form field individually
     formData.append("name", form.name);
@@ -72,10 +73,7 @@ const handleSubmit = async (e) => {
     
     try {
       const response = await axios.post(`${apiUrl}/api/apply`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },  
-        timeout: 120000,
+        timeout: 180000,
       });
       console.log('Form Data Submitted:', response.data);
       console.log('File _id: ', response.data.id);
