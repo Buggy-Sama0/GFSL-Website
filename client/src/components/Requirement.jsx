@@ -31,7 +31,7 @@ function Requirements() {
   };
 
   const handleFileChange = e => {
-    setFiles([...files],e.target.file)
+    setFiles([...files],e.target.files)
     console.log(files); 
   };
 
