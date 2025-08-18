@@ -35,13 +35,13 @@ function Requirements() {
     setFiles(prev =>
       {
       const next = [...prev, ...newFiles]; // merge with existing files
-      console.log('files ->', next);
+      //console.log('files ->', next);
       return next;
     });
   };
 
   useEffect(() => {
-    console.log('File State changed:', files);
+    //console.log('File State changed:', files);    
   }, [files]);
 
 const handleSubmit = async (e) => {
@@ -61,6 +61,9 @@ const handleSubmit = async (e) => {
     }*/
 
     Array.from(files).forEach((file) => formData.append("document_files", file))
+    console.log(formData);
+    
+
     // Append each form field individually
     formData.append("name", form.name);
     formData.append("email", form.email);
