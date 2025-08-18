@@ -230,6 +230,7 @@ app.get('/api/download/files/:fileId', async (req, res) => {
     //await Applicant.find()
     // pipe the stream to the response
     downloadStream.pipe(res);
+  
   } catch(err) {
     console.log(err);
     res.status(400).json({error: { text:'Unable to download file', details: err.message}});
