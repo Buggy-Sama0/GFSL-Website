@@ -30,9 +30,13 @@ function Requirements() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = e => {
-    setFiles([...files],e.target.files)
-    console.log(files); 
+  const handleFileChange = (e) => {
+    const newFiles = Array.from(e.target.files);           // convert FileList -> File[]
+    setFiles(prev => {
+      const next = [...prev, ...newFiles];                 // merge with existing files
+      console.log('files ->', next);
+      return next;
+    });
   };
 
 const handleSubmit = async (e) => {
