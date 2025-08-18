@@ -38,6 +38,8 @@ function Requirements() {
       console.log('files ->', next);
       return next;
     });
+    console.log('File State:', files);
+    
   };
 
 const handleSubmit = async (e) => {
