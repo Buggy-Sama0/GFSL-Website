@@ -32,7 +32,10 @@ function Requirements() {
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);           // convert FileList -> File[]
-    setFiles(prev => {
+    console.log(e.target.files);
+    console.log(newFiles);
+    setFiles(prev =>
+       {
       const next = [...prev, ...newFiles];                 // merge with existing files
       console.log('files ->', next);
       return next;
