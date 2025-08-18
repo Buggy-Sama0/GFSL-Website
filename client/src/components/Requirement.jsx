@@ -66,6 +66,14 @@ const handleSubmit = async (e) => {
       formData.append('document_files', file);
     });
 
+    for (const [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log('FormData entry:', key, value.name, value.size);
+      } else {
+        console.log('FormData entry:', key, value);
+      }
+    }
+
     // Append each form field individually
     formData.append("name", form.name);
     formData.append("email", form.email);
