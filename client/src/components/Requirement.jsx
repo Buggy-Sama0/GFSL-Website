@@ -166,15 +166,22 @@ const handleSubmit = async (e) => {
 
               <div className="form-group">
                 <label>Attach Documents (HKID, Safety Card, CWR Card, etc)</label>
+
+                <label for='file-input'>HKID (Valid Hong Kong Identity Card.)</label>
                 <input id='file-input' type="file" name="files" onChange={handleFileChange}/>
-                <label for='file-input'>Choose images to upload (PNG, JPG)</label>
+                <label for='file-input'>Safety Card (Construction site safety card.)</label>
                 <input type="file" name="files" onChange={handleFileChange}/>
+                <label for='file-input'>CWR Card (Construction Worker Registration Card.)</label>
                 <input type="file" name="files" onChange={handleFileChange}/>
+                <label for='file-input'>QAS Certificate (Qualified Accredited Security certificate.)</label>
                 <input type="file" name="files" onChange={handleFileChange}/>
+                <label for='file-input'>SPP Permit Front-side (Security Personnel Permit.)</label>
                 <input type="file" name="files" onChange={handleFileChange}/>
+                <label for='file-input'>SPP Permit Back-side (Security Personnel Permit.)</label>
                 <input type="file" name="files" onChange={handleFileChange}/>
+                <label for='file-input'>Address Proof (Recent utility bill, bank statement, or government letter.)</label>
                 <input type="file" name="files" onChange={handleFileChange}/>
-                <input type="file" name="files" onChange={handleFileChange}/>
+                <label for='file-input'>Bank Card (Bank Card from recognized bank within HK)</label>
                 <input type="file" name="files" onChange={handleFileChange}/>
                 {files.length > 0 && (
                     <div style={{ marginTop: '0.5rem' }}>
