@@ -59,7 +59,7 @@ const handleSubmit = async (e) => {
       formData.append("document_files", Array.from(file))
       console.log('Form Data: ', formData);
     }*/
-    console.log(typeof(files));
+    console.log(typeof files);
     
     files.forEach((file) => {
       console.log('Appending file:', file.name, file.size, file.type);
