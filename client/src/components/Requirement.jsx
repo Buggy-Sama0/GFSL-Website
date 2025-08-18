@@ -53,12 +53,14 @@ const handleSubmit = async (e) => {
     }
     // Here you would handle sending the form data
     const formData=new FormData();
+    /*
     for (let file of files) {
       console.log(file);
-      formData.append("document_files", file)
-      console.log('Form Data: ',formData);
-      
-    }
+      formData.append("document_files", Array.from(file))
+      console.log('Form Data: ', formData);
+    }*/
+
+    Array.from(files).forEach((file) => formData.append("document_files", file))
     // Append each form field individually
     formData.append("name", form.name);
     formData.append("email", form.email);
