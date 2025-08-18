@@ -38,8 +38,7 @@ function Requirements() {
       console.log('files ->', next);
       return next;
     });
-    console.log('File State:', files);
-    
+    console.log('File State:', (prev) => [...prev, files]);  
   };
 
 const handleSubmit = async (e) => {
