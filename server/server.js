@@ -145,45 +145,62 @@ app.get('/api/test-db', async (req, res) => {
 // Recieve Application API
 app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
   try {
-    console.log('Files uploaded:', req.files);
+    console.log('Files uploaded:', req.files?.length);
     const { name, email, phone, service } = req.body;
-    const fileNames = req.files.map(file => file.originalname).join(', ');
-    const files=req.files.map(file => `${process.env.BACKEND_DOMAIN}/api/download/files/${file.id}`).join(' ');
-    if(!name || !email || !phone || !service) {
-      console.log('No form data provided');    
-      return res.status(400).json({ error: 'No form data provided' });
-    } else if (!req.files) {
-      throw new Error();
-    }
-    await Applicant({
-      name: name,
-      email: email,
-      phone: phone,
-      service: service,
-      document_1: files[0],
-      document_2: files[1],
-      document_3: files[2],
-      document_4: files[3],
-      document_5: files[4],
-      document_6: files[5],
-      document_7: files[6],
-      document_8: files[7],
-      document_9: files[8],
-    }).save();
-    res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames, id: files });
-  } catch(err) {
-    console.error('Upload Error: ', err);
-  }
-})  
+    const uploadedFiles = req.files || [];
+    const fileNames = uploadedFiles.map(file => file.originalname).join(', ');
+    const files = uploadedFiles.map(file => `${process.env.BACKEND_DOMAIN}/api/download/files/${file.id}`);
 
-// Globally handle multer errors so client sees reason
+    if (!name || !email || !phone || !service) {
+      console.log('No form data provided');
+      return res.status(400).json({ error: 'No form data provided' });
+    }
+
+    if (uploadedFiles.length === 0) {
+      return res.status(400).json({ error: 'No files uploaded' });
+    }
+
+    await Applicant({
+      name,
+      email,
+      phone,
+      service,
+      document_1: files[0] || null,
+      document_2: files[1] || null,
+      document_3: files[2] || null,
+      document_4: files[3] || null,
+      document_5: files[4] || null,
+      document_6: files[5] || null,
+      document_7: files[6] || null,
+      document_8: files[7] || null,
+      document_9: files[8] || null,
+    }).save();
+
+    return res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames, id: files });
+  } catch (err) {
+    console.error('Upload Error: ', err);
+    if (err && err.name === 'MulterError') {
+      return res.status(400).json({ error: 'Upload error', code: err.code, message: err.message });
+    }
+    if (err && (err.type === 'entity.too.large' || err.status === 413)) {
+      return res.status(413).json({ error: 'Request entity too large', message: err.message });
+    }
+    return res.status(500).json({ error: 'Server error', message: err.message });
+  }
+});
+
+// Global error handler for multer and payload-too-large
 app.use((err, req, res, next) => {
+  if (!err) return next();
+  console.error('Global error handler:', err && err.message ? err.message : err);
   if (err && err.name === 'MulterError') {
-    console.error('Multer error:', err);
     return res.status(400).json({ error: 'Upload error', code: err.code, message: err.message });
   }
-  next(err)
-})
+  if (err && (err.type === 'entity.too.large' || err.status === 413 || err.message?.includes('too large'))) {
+    return res.status(413).json({ error: 'Request entity too large', message: err.message });
+  }
+  return res.status(err.status || 500).json({ error: err.message || 'Server error' });
+});
 
 // Download files API
 app.get('/api/download/files/:fileId', async (req, res) => {
