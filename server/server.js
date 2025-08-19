@@ -77,70 +77,291 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve the React app
-app.get('/', (req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>GFSL Backend</title>
-      <style>
-        body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f5f5f5;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          margin: 0;
-        }
-        .container {
-          text-align: center;
-          padding: 2rem;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-          max-width: 600px;
-        }
-        h1 {
-          color: #2c3e50;
-          margin-bottom: 1rem;
-        }
-        p {
-          color: #7f8c8d;
-          line-height: 1.6;
-        }
-        .status {
-          display: inline-block;
-          background: #2ecc71;
-          color: white;
-          padding: 0.5rem 1rem;
-          border-radius: 20px;
-          font-weight: bold;
-          margin-top: 1rem;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <h1>GFSL Backend Service</h1>
-        <p>This is the backend API for GFSL website. The API is running successfully.</p>
-        <div class="status">Operational</div>
-      </div>
-    </body>
-    </html>
-  `);
+// Serve an interactive professional status dashboard
+app.get('/', async (req, res) => {
+  try {
+    const ready = mongoose.connection.readyState === 1;
+    let applicantCount = 0;
+    try { applicantCount = await Applicant.countDocuments(); } catch (e) { /* ignore */ }
+
+    const initial = {
+      ready,
+      applicantCount,
+      uptime: process.uptime(),
+      node: process.version,
+      env: process.env.NODE_ENV || 'development',
+      memory: process.memoryUsage(),
+    };
+
+    res.send(`
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>GFSL — Backend Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+          :root{--bg:#0b1220;--card:#071226;--accent:#06b6d4;--good:#10b981;--bad:#fb7185;--muted:#94a3b8}
+          html,body{height:100%;margin:0;background:linear-gradient(180deg,#041226 0%,#071026 100%);font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e6eef6}
+          .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px}
+          .panel{width:100%;max-width:1000px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:14px;padding:28px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+          .header{display:flex;align-items:center;gap:16px}
+          .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 8px 30px rgba(7,18,35,0.6)}
+          .title{flex:1}
+          h1{margin:0;font-size:20px}
+          p.lead{margin:6px 0 0;color:var(--muted)}
+          .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+          .card{background:rgba(255,255,255,0.02);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+          .big{grid-column:span 2}
+          .status-dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle}
+          .muted{color:var(--muted);font-size:13px}
+          pre{background:transparent;color:#cfe7ff;white-space:pre-wrap;word-break:break-word;margin:0}
+          .actions{display:flex;gap:8px}
+          button{background:transparent;border:1px solid rgba(255,255,255,0.05);color:inherit;padding:8px 12px;border-radius:8px;cursor:pointer}
+          .accent{border-color:rgba(6,182,212,0.12);box-shadow:0 6px 20px rgba(6,182,212,0.06)}
+          .good{color:var(--good)}
+          .bad{color:var(--bad)}
+          .footer{margin-top:18px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+        </style>
+      </head>
+      <body>
+        <div class="wrap">
+          <div class="panel">
+            <div class="header">
+              <div class="logo">GF</div>
+              <div class="title">
+                <h1>GFSL Backend — Live Dashboard</h1>
+                <p class="lead">A real-time summary of service health, database connectivity, and application metrics.</p>
+              </div>
+              <div class="actions">
+                <button id="refresh" class="accent">Refresh</button>
+                <a href="/api/test-db" style="text-decoration:none"><button>DB Status</button></a>
+              </div>
+            </div>
+
+            <div class="grid">
+              <div class="card">
+                <div class="muted">Node</div>
+                <div style="margin-top:8px"><strong id="node">${initial.node}</strong></div>
+                <div class="muted" style="margin-top:6px">Env: <span id="env">${initial.env}</span></div>
+              </div>
+
+              <div class="card">
+                <div class="muted">Uptime</div>
+                <div style="margin-top:8px"><strong id="uptime">${Math.floor(initial.uptime)}s</strong></div>
+                <div class="muted" style="margin-top:6px">Auto-refreshes every 15s</div>
+              </div>
+
+              <div class="card">
+                <div class="muted">Memory (RSS)</div>
+                <div style="margin-top:8px"><strong id="mem">${Math.round(initial.memory.rss/1024/1024)} MB</strong></div>
+                <div class="muted" style="margin-top:6px">Heap: <span id="heap">${Math.round(initial.memory.heapUsed/1024/1024)} MB</span></div>
+              </div>
+
+              <div class="card">
+                <div class="muted">Applicants</div>
+                <div style="margin-top:8px"><strong id="appCount">${initial.applicantCount}</strong></div>
+                <div class="muted" style="margin-top:6px">Total documents stored in DB</div>
+              </div>
+
+              <div class="card big">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div>
+                    <div class="muted">Database</div>
+                    <div style="margin-top:8px"><strong id="dbState">${initial.ready ? 'Connected' : 'Not connected'}</strong></div>
+                    <div class="muted" style="margin-top:6px" id="dbMsg">${initial.ready ? 'Mongoose connection is open' : 'Mongoose not connected'}</div>
+                  </div>
+                  <div style="text-align:right">
+                    <span id="dbDot" class="status-dot" style="background:${initial.ready ? 'var(--good)' : 'var(--bad)'}"></span>
+                    <div class="muted" style="margin-top:8px">DB stats below</div>
+                  </div>
+                </div>
+                <div style="margin-top:12px"><pre id="dbStats">${initial.ready ? 'loaded' : 'no stats'}</pre></div>
+              </div>
+
+              <div class="card">
+                <div class="muted">Quick Links</div>
+                <div style="margin-top:8px"><a href="/api/test-db" style="color:inherit">Interactive DB page</a></div>
+                <div style="margin-top:8px"><a href="/api/test-db/json" style="color:inherit">/api/test-db/json</a></div>
+              </div>
+            </div>
+
+            <div class="footer">
+              <div>Powered by GFSL • <span id="host">${process.env.BACKEND_DOMAIN || 'local'}</span></div>
+              <div>Updated: <span id="updated">${new Date().toLocaleString()}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          const refreshBtn = document.getElementById('refresh');
+          async function fetchInfo() {
+            try {
+              refreshBtn.disabled = true; refreshBtn.textContent = 'Refreshing...';
+              const [a,b] = await Promise.all([
+                fetch('/api/info').then(r => r.json()),
+                fetch('/api/test-db/json').then(r => r.json())
+              ]);
+
+              if (a && a.uptime !== undefined) {
+                document.getElementById('uptime').textContent = Math.floor(a.uptime) + 's';
+                document.getElementById('node').textContent = a.node;
+                document.getElementById('env').textContent = a.env;
+                document.getElementById('mem').textContent = Math.round(a.memory.rss/1024/1024) + ' MB';
+                document.getElementById('heap').textContent = Math.round(a.memory.heapUsed/1024/1024) + ' MB';
+                document.getElementById('appCount').textContent = a.applicantCount;
+              }
+
+              if (b && b.ready !== undefined) {
+                document.getElementById('dbState').textContent = b.ready ? 'Connected' : 'Not connected';
+                document.getElementById('dbMsg').textContent = b.ready ? 'Mongoose connection is open' : 'Mongoose not connected';
+                document.getElementById('dbDot').style.background = b.ready ? 'var(--good)' : 'var(--bad)';
+                document.getElementById('dbStats').textContent = b.stats ? JSON.stringify(b.stats, null, 2) : 'No stats available';
+              }
+              document.getElementById('updated').textContent = new Date().toLocaleString();
+            } catch (err) {
+              console.error('Dashboard fetch error', err);
+            } finally {
+              refreshBtn.disabled = false; refreshBtn.textContent = 'Refresh';
+            }
+          }
+          refreshBtn.addEventListener('click', fetchInfo);
+          setInterval(fetchInfo, 15000);
+        </script>
+      </body>
+      </html>
+    `);
+  } catch (err) {
+    console.error('Root page render error:', err);
+    res.status(500).send('<pre>Unable to render dashboard:\n'+err.message+'</pre>');
+  }
 });
 
-// TEST DB
+// TEST DB - interactive status page
 app.get('/api/test-db', async (req, res) => {
   try {
-    const stats=await mongoose.connection.db.stats().ok;
-    res.json({seccess: true, stats});
+    const ready = mongoose.connection.readyState === 1;
+    let stats = null;
+    if (ready && mongoose.connection.db && typeof mongoose.connection.db.stats === 'function') {
+      stats = await mongoose.connection.db.stats();
+    }
+
+    const initial = JSON.stringify({ ready, stats });
+
+    res.send(`
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>GFSL — DB Status</title>
+        <style>
+          :root{--bg:#0f1724;--card:#0b1220;--accent:#22c55e;--muted:#94a3b8}
+          body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:linear-gradient(180deg,#071029 0%,#081727 100%);color:#e6eef6;display:flex;align-items:center;justify-content:center;height:100vh}
+          .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));border:1px solid rgba(255,255,255,0.03);padding:28px;border-radius:12px;max-width:820px;width:94%;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+          h1{margin:0 0 8px;font-size:20px}
+          p.lead{margin:0 0 18px;color:var(--muted)}
+          .status{display:flex;gap:16px;align-items:center}
+          .badge{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+          .ok{background:linear-gradient(90deg,#064e3b,#10b981);box-shadow:0 8px 24px rgba(16,185,129,0.12)}
+          .bad{background:linear-gradient(90deg,#7f1d1d,#fb7185);box-shadow:0 8px 24px rgba(251,113,133,0.12)}
+          .meta{flex:1}
+          pre{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;overflow:auto;color:#cfe7ff;margin-top:12px}
+          button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit;padding:8px 12px;border-radius:8px;cursor:pointer}
+          .small{font-size:13px;color:var(--muted)}
+          .pulse{animation:pulse 1.8s infinite}
+          @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <h1>GFSL — Database Status</h1>
+          <p class="lead">A tiny dashboard to show whether the database is healthy — click "Refresh" to poll live stats.</p>
+
+          <div class="status">
+            <div class="badge ${ready ? 'ok pulse' : 'bad'}" id="badge">${ready ? '✓' : '✕'}</div>
+            <div class="meta">
+              <div><strong id="state">${ready ? 'Connected' : 'Not connected'}</strong> <span class="small" id="time">${new Date().toLocaleString()}</span></div>
+              <div class="small" id="desc">${ready ? 'Mongoose reports the connection is open.' : 'Mongoose is not connected. The server will attempt reconnects in background.'}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+              <button id="refresh">Refresh</button>
+              <a href="/" style="text-decoration:none;color:inherit;text-align:right" class="small">Back to root</a>
+            </div>
+          </div>
+
+          <div style="margin-top:18px">
+            <div style="display:flex;gap:12px;align-items:center;justify-content:space-between">
+              <strong>Live stats</strong>
+              <span class="small">Fetched from MongoDB</span>
+            </div>
+            <pre id="stats">${stats ? JSON.stringify(stats, null, 2) : 'No stats available'}</pre>
+          </div>
+        </div>
+
+        <script>
+          const refreshBtn = document.getElementById('refresh');
+          const badge = document.getElementById('badge');
+          const state = document.getElementById('state');
+          const desc = document.getElementById('desc');
+          const statsEl = document.getElementById('stats');
+          const timeEl = document.getElementById('time');
+
+          async function fetchStats() {
+            try {
+              refreshBtn.disabled = true;
+              refreshBtn.textContent = 'Checking...';
+              const r = await fetch('/api/test-db/json');
+              if (!r.ok) throw new Error('Network error');
+              const payload = await r.json();
+              const { ready, stats } = payload;
+              badge.textContent = ready ? '✓' : '✕';
+              badge.className = 'badge ' + (ready ? 'ok pulse' : 'bad');
+              state.textContent = ready ? 'Connected' : 'Not connected';
+              desc.textContent = ready ? 'Mongoose reports the connection is open.' : 'Mongoose is not connected. The server may still be initializing.';
+              statsEl.textContent = stats ? JSON.stringify(stats, null, 2) : 'No stats available';
+              timeEl.textContent = new Date().toLocaleString();
+            } catch (err) {
+              badge.textContent = '✕';
+              badge.className = 'badge bad';
+              state.textContent = 'Error';
+              desc.textContent = err.message || 'Unable to fetch stats';
+              statsEl.textContent = String(err);
+            } finally {
+              refreshBtn.disabled = false;
+              refreshBtn.textContent = 'Refresh';
+            }
+          }
+
+          refreshBtn.addEventListener('click', fetchStats);
+          // auto-refresh every 20s while open
+          setInterval(fetchStats, 20000);
+        </script>
+      </body>
+      </html>
+    `);
   } catch (err) {
-    res.status(500).json({error: err.message});
+    console.error('Test DB page error:', err);
+    res.status(500).send(`<pre>Unable to render status page:\n${err.message}</pre>`);
   }
-})
+});
+
+// JSON endpoint for programmatic checks / health checks
+app.get('/api/test-db/json', async (req, res) => {
+  try {
+    const ready = mongoose.connection.readyState === 1;
+    let stats = null;
+    if (ready && mongoose.connection.db && typeof mongoose.connection.db.stats === 'function') {
+      stats = await mongoose.connection.db.stats();
+    }
+    res.json({ success: true, ready, stats });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 // Recieve Application API
 app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
