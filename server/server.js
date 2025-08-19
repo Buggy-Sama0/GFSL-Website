@@ -170,7 +170,6 @@ app.post('/api/apply', upload.array('document_files', 10), async (req, res) => {
       document_6: files[5] || null,
       document_7: files[6] || null,
       document_8: files[7] || null,
-      document_9: files[8] || null,
     }).save();
     res.status(200).json({ message: 'Form submitted successfully', data: email, Docs: fileNames, id: files });
   } catch(err) {

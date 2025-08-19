@@ -13,7 +13,6 @@ const applicantSchema=new mongoose.Schema({
     document_6: String,
     document_7: String,
     document_8: String,
-    document_9: String,
 });
 
 const Applicant=mongoose.model('Applicant', applicantSchema);
