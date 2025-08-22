@@ -148,13 +148,6 @@ const handleSubmit = async (e) => {
 
       <div>
           <h3>Application Form</h3>
-          {submitted &&
-            <div className="contact-success success-animate">
-              <span className="success-icon" aria-label="Success">&#10004;</span>
-              <span className="success-text">Thank you! We will get back to you soon.</span>
-              <button className="success-close" onClick={()=> setSubmitted(false)} aria-label="Close">&times;</button>
-            </div>
-          }
             <form className="contact-form" onSubmit={handleSubmit}>
               <input name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required />
               <input name="email" type="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
@@ -189,6 +182,13 @@ const handleSubmit = async (e) => {
                     </div>
                 )}
               </div>
+              {submitted &&
+                <div className="contact-success success-animate">
+                  <span className="success-icon" aria-label="Success">&#10004;</span>
+                  <span className="success-text">Thank you! We will get back to you soon.</span>
+                  <button className="success-close" onClick={()=> setSubmitted(false)} aria-label="Close">&times;</button>
+                </div>
+              }
               {error && (
                 <div className={`error-message${error ? ' show' : ''}`}>
                   <span className="error-icon" aria-label="Error">&#9888;</span>
