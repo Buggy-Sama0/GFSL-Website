@@ -10,3 +10,9 @@ if (require.main === module) {
 }
 
 // Export the app for platforms that import it (Vercel) or for tests
+
+https://themewagon.github.io/Oberlo/
+https://themewagon.github.io/LifeSure/about.html
+https://themewagon.github.io/BuilderMax/index.html
+https://themewagon.github.io/BusTraveller/
+https://themewagon.github.io/logis-new/index.html

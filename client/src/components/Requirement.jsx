@@ -48,7 +48,7 @@ const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     if(!files || files.length==0) {
-      setError('Please attach the documents!')
+      setError('Please attcah atleast one document!')
       return;
     }
     // Here you would handle sending the form data
@@ -181,14 +181,14 @@ const handleSubmit = async (e) => {
                       <small>Selected files: {Object.entries(files).map(([key, file])=> file.name).join(', ')}</small>
                     </div>
                 )}
-              </div>
+              
               {submitted &&
                 <div className="contact-success success-animate">
                   <span className="success-icon" aria-label="Success">&#10004;</span>
                   <span className="success-text">Thank you! We will get back to you soon.</span>
                   <button className="success-close" onClick={()=> setSubmitted(false)} aria-label="Close">&times;</button>
                 </div>
-              }
+              }</div>
               {error && (
                 <div className={`error-message${error ? ' show' : ''}`}>
                   <span className="error-icon" aria-label="Error">&#9888;</span>

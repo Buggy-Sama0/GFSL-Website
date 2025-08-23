@@ -16,7 +16,10 @@ function Header() {
           src="/Company_Logo.png" 
           alt="Gurkha Force Security Limited Logo" 
         />
-        <span className="company-name">Gurkha Force Security Ltd</span>
+        <div>
+          <span className="company-name">Gurkha Force Security Ltd</span>
+          <div className="slogan small">Trusted Since 1998</div>
+        </div>
       </div>
       <div className="header-hamburger" onClick={handleHamburgerClick} aria-label="Toggle navigation" tabIndex={0} role="button">
         <span></span>
@@ -30,6 +33,7 @@ function Header() {
         <Link to="/clients" onClick={() => setMenuOpen(false)}>Clients</Link>
         <Link to="/requirements" onClick={() => setMenuOpen(false)}>Job Requirements</Link>
         <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+  <a className="cta-quote" href="/contact" onClick={() => setMenuOpen(false)}>Get a Quote</a>
       </nav>
     </header>
   );
