@@ -16,7 +16,7 @@ function Home() {
 
           <div className="hero-right">
             {/* Using the project Company_Logo.png from public; replace with employee photos or other marketing images if available */}
-            <img src="./public/photo1.jpg" alt="Company showcase" />
+            <img src="./photo1.jpg" alt="Company showcase" />
           </div>
         </div>
       </section>
