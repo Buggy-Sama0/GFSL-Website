@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 2.5rem;
+  padding: 1.6rem 2rem;
   background: linear-gradient(135deg, var(--bg-dark) 0%, #081827 100%);
   color: var(--text);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
@@ -14,11 +14,13 @@
   backdrop-filter: blur(8px);
 }
 
+
 .header-logo {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .header-logo:hover {
@@ -26,11 +28,11 @@
 }
 
 .header-logo img {
-  height: 3.75rem;
-  width: 3.75rem;
+  height: 7em;
+  width: 7em;
   background: #fff;
   border-radius: 12px;
-  padding: 0.5rem;
+  padding: 0.2rem;
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
   border: 2px solid var(--primary-accent, #ffd700);
   object-fit: contain;
@@ -43,7 +45,7 @@
 }
 
 .company-name {
-  font-size: 1.75rem;
+  font-size: 1.8em;
   font-weight: 800;
   letter-spacing: 1.5px;
   background: linear-gradient(90deg, var(--primary-accent, #ffd700) 0%, #ffffff 100%);
@@ -54,12 +56,13 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.slogan.small { font-size: 12px; color: var(--muted); margin-top: 4px }
+.slogan.small { font-size: 13px; color: var(--muted); margin-top: 4px }
 
 .header-nav {
   display: flex;
   gap: 0.7rem;
-  animation:forwards fadeIn 0.5s ease-in;
+  align-items:center;
+  animation:forwards fadeIn 0.45s ease-in;
 }
 
 @keyframes fadeIn {
@@ -80,10 +83,10 @@
   color: #fff;
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.1rem;
-  padding: 0.6rem 1.2rem;
+  font-size: 1.2rem;
+  padding: 0.5rem 0.9rem;
   border-radius: 8px;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s;
   position: relative;
   overflow: hidden;
 }
@@ -91,12 +94,14 @@
 .header-nav .cta-quote {
   background: linear-gradient(90deg, var(--accent-gold), #ffd700);
   color: #081026;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
   margin-left: 8px;
-  font-weight: 700;
+  font-weight: 800;
+  box-shadow: 0 8px 24px rgba(255,209,102,0.12);
 }
 
+/* for hivering underline animation */
 .header-nav a::before {
   content: '';
   position: absolute;
@@ -116,8 +121,21 @@
   width: 100%;
 }
 
+/* active route styling */
+.header-nav a.active-nav, .header-nav a.active-nav:hover { 
+  color: var(--primary-accent, #ffd700); 
+  transition: color 220ms ease; 
+}
+
+/* persistent underline for active and focused links */
+.header-nav a.active-nav::before,
+.header-nav a.active-nav:focus::before,
+.header-nav a:focus::before { width: 100%; }
+
+
+
 .header-nav a:active {
-  transform: translateY(1px);
+  transform: translateY(-20px);
 }
 
 /* Emergency Contact Button */
@@ -136,10 +154,11 @@
 .header-hamburger {
   display: none;
   cursor: pointer;
-  padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: transform 240ms ease;
 }
 
 .header-hamburger:hover {
@@ -154,4 +173,45 @@
   background: var(--primary-accent, #ffd700);
   border-radius: 3px;
   transition: all 0.3s ease;
+}
+
+.header-hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.header-hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.header-hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Mobile overlay nav */
+.header-nav { gap: 0.5rem; opacity: 1; transform: none; transition: opacity 220ms ease, transform 220ms ease; }
+
+/* make active nav forced visible and above everything */
+.header-nav.active { 
+  display: flex !important; 
+  opacity: 1 !important; 
+  transform: none !important; 
+  z-index: 2200 !important; 
+}
+
+@media (max-width: 920px) {
+  .header-nav {
+    inset: 80px 16px 16px 16px;
+    background: linear-gradient(180deg, rgba(8,18,34,0.96), rgba(10,22,40,0.96));
+    border-radius: 14px;
+    padding: 18px;
+    flex-direction: column;
+    display: none;
+    box-shadow: 0 30px 80px rgba(2,6,23,0.6);
+    z-index: 200;
+    overflow: auto;
+    position: static;
+  }
+  .header-nav a { padding: 12px 16px; font-size: 1.05rem }
+  .header-hamburger { display: block; position: relative; z-index: 2300 }
+  /* slightly larger logo and heading on medium screens */
+  .header-logo img { height: clamp(3.2rem, 6.5vw, 4.6rem); width: clamp(3.2rem, 6.5vw, 4.6rem) }
+  .company-name { font-size: clamp(1.1rem, 3.2vw, 1.8rem) }
+}
+
+@media (max-width: 420px) {
+  .header-logo img { height: 3.6rem; width: 3.6rem }
+  .company-name { font-size: 1.05rem }
+  .header { padding: 0.9rem 1rem }
 }

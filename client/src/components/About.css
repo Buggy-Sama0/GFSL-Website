@@ -14,13 +14,10 @@
   max-width: 1200px;
   margin: 4rem auto;
   padding: 3rem;
-  background: var(--neutral-light);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   font-family: 'Montserrat', 'Segoe UI', sans-serif;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 35, 102, 0.1);
 }
 
 .about::before {
@@ -77,6 +74,94 @@
   color: var(--text-main);
   line-height: 1.8;
   margin-bottom: 1.5rem;
+}
+
+/* Our Core Values - two-column layout: points left, image right */
+.values-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile-first: single column */
+  gap: 1rem 1.25rem;
+  align-items: start;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.value-card {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  border-top: 4px solid var(--primary-accent);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.value-card + .value-card {
+  margin-top: 0.5rem;
+}
+
+.value-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(23, 11, 2, 0.12);
+}
+
+.values-visual {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+  z-index: 2;
+}
+
+.values-visual img {
+  display: block;
+  width: 100%;
+  height: auto; /* remove fixed height so image can center properly */
+  max-width: 520px;
+  max-height: 640px;
+  border-radius: 16px;
+  box-shadow: 0 22px 48px rgba(0,0,0,0.24);
+  border: 6px solid rgba(255,255,255,0.03);
+  object-fit: cover;
+}
+
+/* Desktop: two columns - left for points, right for visual */
+@media (min-width: 920px) {
+  .values-grid {
+    grid-template-columns: 1fr 520px; /* left flexible column, right widened visual column */
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  /* Force all value-cards into the left column stacked vertically */
+  .value-card { 
+  
+    margin-top: 90px;
+   }
+
+  .values-visual {
+    grid-column: 2 / 3;
+    grid-row: 1 / -1; /* span rows so the visual aligns parallel to the stacked cards */
+    justify-self: end;
+    align-self: center; /* vertical center within the spanned area */
+    margin-top: 0; /* reset top margin when centering */
+    width: 100%;
+    max-width: 520px; /* match the column width so image fills the right column */
+    position: relative;
+    z-index: 6;
+  }
+
+  .values-visual img {
+    width: 100%;
+    height: auto;
+    max-height: 640px; /* allow a taller image for visual impact */
+    border-radius: 14px;
+    box-shadow: 0 44px 110px rgba(2,6,23,0.44);
+  }
+}
+
+@media (max-width: 719px) {
+  .values-grid { grid-template-columns: 1fr; }
+  .values-visual img { max-height: 320px; border-radius: 12px; }
 }
 
 /* Timeline */
@@ -163,8 +248,8 @@
 }
 
 .team-photo {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   object-fit: cover;
   border-radius: 50%;
   margin: 0 auto 1.5rem;
@@ -235,6 +320,24 @@
   border: none;
 }
 
+/* Stats strip */
+.stats-strip { margin: 2.5rem 0; }
+.stats-row { display:flex; gap:28px; justify-content:space-between; align-items:center }
+.stat { background: #fff; padding: 12px 18px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.06); display:flex; gap:12px; align-items:center }
+.stat .num { font-size:1.6rem; color:var(--primary-accent); font-weight:800 }
+.stat .label { color:var(--text-secondary); font-weight:600 }
+
+/* Testimonials */
+.testimonials-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:18px; margin: 1.5rem 0 }
+.testimonial-card { background:#fff; padding:18px; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.06); font-style:italic }
+.testimonial-card footer { margin-top:12px; font-weight:700; color:var(--primary-dark) }
+
+/* Certifications */
+.certifications { display:flex; gap:18px; align-items:center; margin:1.5rem 0 }
+.cert { display:flex; gap:12px; align-items:center; background:rgba(255,255,255,0.9); padding:8px 12px; border-radius:10px }
+.cert img { height:40px }
+.cert-label { font-weight:700; color:var(--primary-dark) }
+
 /* Trust Badges */
 .trust-badges {
   display: flex;
@@ -269,7 +372,7 @@
     margin: 2rem auto;
     border-radius: 12px;
   }
-  
+  .about-hero { grid-template-columns: 1fr; }
   .team {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1.5rem;
@@ -295,4 +398,62 @@
     align-items: center;
     gap: 1rem;
   }
+}
+
+.about-hero { display:grid; grid-template-columns: 1fr minmax(360px, 52%); gap: clamp(18px, 4vw, 48px); align-items:center; align-content:center }
+.about-hero .hero-right { display:flex; justify-content:center; align-items:center }
+.about-hero .hero-right img { width:100%; max-width:520px; border-radius:18px; box-shadow:0 22px 48px rgba(0,0,0,0.24); border: 6px solid rgba(255,255,255,0.03); object-fit:cover }
+.about-hero .hero-left h2 { margin:0 0 8px }
+.about-hero .hero-actions { margin-top: 16px; display:flex; gap:12px; align-items:center }
+.about-hero .cta-btn { background: linear-gradient(90deg,var(--primary-accent),var(--secondary-accent)); color:#081026; padding:10px 14px; border-radius:10px; font-weight:800; text-decoration:none }
+.about-hero .secondary-link { color:var(--primary-dark); text-decoration:underline }
+
+
+
+/* Awards */
+.awards-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin: 1rem 0 2rem 0;
+}
+.award {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: transparent;
+}
+.award img { width: 64px; height: auto; border-radius: 6px; }
+.award-label { font-size: 0.9rem; color: var(--text-secondary); }
+
+/* FAQ */
+.faq-list { margin: 0.5rem 0 1.5rem 0; }
+.faq-item { background: #fff; padding: 0.75rem; border-radius: 8px; margin-bottom: 0.5rem; }
+.faq-item summary { cursor: pointer; font-weight: 600; }
+
+/* CTA */
+.about-cta { text-align: center; background: linear-gradient(90deg, rgba(2,48,71,0.03), rgba(255,215,0,0.02)); padding: 1.25rem; border-radius: 10px; margin-top: 1.5rem; }
+.about-cta h3 { margin: 0 0 0.25rem 0; }
+.about-cta p { margin: 0 0 0.75rem 0; color: var(--text-secondary); }
+.cta-btn { display: inline-block; background: var(--primary-accent); color: #081026; padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 700; }
+
+@media (min-width: 720px) {
+  .testimonials-grid { grid-template-columns: repeat(2,1fr); }
+  .team { grid-template-columns: repeat(4, 1fr); }
+  .awards-row { gap: 2rem; }
+}
+.about-cta { text-align: center; background: linear-gradient(90deg, rgba(2,48,71,0.03), rgba(255,215,0,0.02)); padding: 1.25rem; border-radius: 10px; margin-top: 1.5rem; }
+  .about-hero { grid-template-columns: 1fr; }
+.about-cta p { margin: 0 0 0.75rem 0; color: var(--text-secondary); }
+.cta-btn { display: inline-block; background: var(--primary-accent); color: #081026; padding: 0.6rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 700; }
+
+@media (min-width: 720px) {
+  .testimonials-grid { grid-template-columns: repeat(2,1fr); }
+
+@media (min-width: 1200px) {
+  .about-hero { grid-template-columns: 1fr 520px; }
+  .about-hero .hero-right img { max-width: 640px; }
+}
+  .team { grid-template-columns: repeat(4, 1fr); }
+  .awards-row { gap: 2rem; }
 }

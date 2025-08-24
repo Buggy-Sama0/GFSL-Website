@@ -54,16 +54,48 @@ const coreValues = [
   }
 ];
 
+const testimonials = [
+  { id: 1, name: 'ACME Construction', quote: 'Reliable, punctual and professional security teams — helped us reduce theft incidents to zero.' },
+  { id: 2, name: 'Greenfield Estates', quote: 'Responsive management and clear reporting; a partner we trust across multiple sites.' },
+];
+
+const awards = [
+  { id: 1, title: 'Certificate of Appreciation', issuer: 'Paul Y.-CREC JV', img: '/Images/award.png' },
+  { id: 2, title: 'ISO Certification', issuer: 'ISO', img: '/Images/iso-cert.png' },
+];
+
+const faqs = [
+  { question: 'How quickly can you deploy a team?', answer: 'We typically deploy within 48–72 hours depending on licensing and site access.' },
+  { question: 'Do you provide training records and reporting?', answer: 'Yes — every shift comes with a digital report and any incidents are logged and shared.' },
+  { question: 'Can you handle multiple sites across regions?', answer: 'We have the capacity and logistics to support multi-site contracts with centralized coordination.' },
+];
+
+
 function About() {
   return (
     <section className="about" id="about">
-      <h2>About Us</h2>
-      <p>
-        <strong>Our Mission:</strong> To provide reliable, innovative security solutions with a customer-first approach.
-      </p>
-      <p>
-        <strong>Values:</strong> Integrity, professionalism, and continuous improvement.
-      </p>
+      <div className="about-hero">
+        <div className="hero-left">
+          <h2>About Us</h2>
+          <p>
+            Gurkha Force Security Ltd is a trusted provider of comprehensive security solutions, combining decades of field experience.
+            We partner with businesses and communities to deliver tailored guarding, patrol, and monitoring services—prioritizing prevention, clear communication, and measurable results. 
+            Built on integrity, vigilance, and innovation, our teams are committed to protecting people and assets with professionalism and rapid response, backed by transparent reporting and continuous improvement.
+          </p>
+          <p>
+            <strong>Our Mission:</strong> To provide reliable, innovative security solutions with a customer-first approach.
+          </p>
+          <p>
+            <strong>Values:</strong> Integrity, professionalism, and continuous improvement.
+          </p>
+          <div className="hero-actions">
+            <a href="/services" className="secondary-link">Explore Services</a>
+          </div>
+        </div>
+        <div className="hero-right" aria-hidden>
+          <img src="/photo2.jpg" alt="Company visual" />
+        </div>
+      </div>
 
       <h3>Our Core Values</h3>
       <div className="values-grid">
@@ -74,6 +106,11 @@ function About() {
             <p>{value.description}</p>
           </div>
         ))}
+
+        {/* Visual/illustration inside core values */}
+        <div className="values-visual">
+          <img src="/photo4.jpg" alt="Our team in action" loading="lazy" />
+        </div>
       </div>
 
       <h3>Our Journey</h3>
@@ -118,6 +155,52 @@ function About() {
           Watch our CEO discuss emerging security threats and our proactive solutions.
         </p>
       </div>
+
+      <section className="stats-strip">
+        <div className="stats-row">
+          <div className="stat"><div className="num">10+</div><div className="label">Years Experience</div></div>
+          <div className="stat"><div className="num">500+</div><div className="label">Shifts Delivered</div></div>
+          <div className="stat"><div className="num">40+</div><div className="label">Clients Served</div></div>
+          <div className="stat"><div className="num">4.0</div><div className="label">Average Rating</div></div>
+        </div>
+      </section>
+
+      <h3>What Clients Say</h3>
+      <div className="testimonials-grid">
+        {testimonials.map(t => (
+          <blockquote key={t.id} className="testimonial-card">“{t.quote}”<footer>- {t.name}</footer></blockquote>
+        ))}
+      </div>
+
+      <h3>Awards & Recognitions</h3>
+      <div className="awards-row">
+        {awards.map(a => (
+          <div className="award" key={a.id}>
+            <img src={a.img} alt={a.title} />
+            <div>
+              <div className="award-label">{a.title}</div>
+              <div className="award-issuer">{a.issuer}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h3>Frequently Asked Questions</h3>
+      <div className="faq-list">
+        {faqs.map((f, i) => (
+          <details className="faq-item" key={i}>
+            <summary>{f.question}</summary>
+            <p>{f.answer}</p>
+          </details>
+        ))}
+      </div>
+
+      <div className="about-cta">
+        <h3>Ready to secure your site?</h3>
+        <p>Contact our team for a free site assessment and tailored quotation.</p>
+        <a className="cta-btn" href="/contact">Get a Quote</a>
+      </div>
+
     </section>
   );
 }
