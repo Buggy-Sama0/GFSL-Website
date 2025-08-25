@@ -35,7 +35,6 @@ function Header() {
         <img src="/Company_Logo.png" alt="Gurkha Force Security Limited Logo" />
         <div>
           <span className="company-name">Gurkha Force Security Ltd</span>
-          <div className="slogan small">Trusted Since 1998</div>
         </div>
       </div>
 

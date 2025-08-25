@@ -68,9 +68,8 @@ function Footer() {
           <a href="tel:+85237584165" className="phone">📞 +852 3758 4165</a>
           <a href="mailto:gurkha.forces@gmail.com" className="email">✉️ gurkha.forces@gmail.com</a>
           <div className="socials">
-            <a href="#" aria-label="LinkedIn">in</a>
-            <a href="#" aria-label="Facebook">f</a>
-            <a href="#" aria-label="Twitter">t</a>
+            <a href="#" target="_blank" aria-label="LinkedIn">in</a>
+            <a href="https://www.facebook.com/gurkhaforceshk/" target="_blank" aria-label="Facebook">f</a>
           </div>
         </div>
       </div>

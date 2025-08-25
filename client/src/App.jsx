@@ -8,11 +8,13 @@ import Services from './components/Service';
 import Clients from './components/Clients';
 import Contact from './components/Contact';
 import Requirements from './components/Requirement';
+import ScrollToTop from './components/ScrollToTop';
 
 
 function App() {
   return (
     <Router>
+  <ScrollToTop />
       <Header />
       <div className="App">
         <Routes>
