@@ -187,16 +187,16 @@
 }
 
 .requirements-page {
-  max-width: 900px;
-  margin: 3rem auto;
-  padding: 2.5rem;
-  background: var(--neutral-light);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  max-width: 1100px; /* wider for professional, two-column layout */
+  margin: 3.5rem auto;
+  padding: clamp(1.25rem, 2.5vw, 3rem);
+  background: linear-gradient(180deg, #ffffff 0%, var(--neutral-light) 100%);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(2,6,23,0.08);
+  font-family: Inter, 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial;
   position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(0, 35, 102, 0.1);
+  overflow: visible;
+  border: 1px solid rgba(0, 35, 102, 0.06);
 }
 
 .requirements-page::before {
@@ -210,12 +210,13 @@
 }
 
 .requirements-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
   color: var(--primary-dark);
   font-weight: 800;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   position: relative;
-  display: inline-block;
+  display: block;
+  text-align: center;
 }
 
 .requirements-title::after {
@@ -230,37 +231,41 @@
 }
 
 .requirements-intro {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
   color: var(--neutral-dark);
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  max-width: 800px;
+  line-height: 1.75;
+  margin: 0 auto 1.8rem auto;
+  max-width: 880px;
+  text-align: center;
 }
 
 .requirements-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 3rem 0;
+  margin: 1.25rem 0 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
 }
 
 .requirement-item {
   display: flex;
-  flex-direction: column;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  padding: 1.5rem 2rem;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
-  border-left: 4px solid var(--primary-accent);
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(2,6,23,0.06);
+  padding: 1.15rem 1.25rem;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  border-left: 4px solid transparent;
   position: relative;
-  overflow: hidden;
 }
 
 .requirement-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-left: 4px solid var(--primary-dark);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(2,6,23,0.08);
+  border-left: 6px solid rgba(0,35,102,0.08);
 }
 
 .requirement-item::before {
@@ -277,11 +282,12 @@
 .requirement-name {
   color: var(--primary-dark);
   font-weight: 700;
-  font-size: 1.3rem;
-  margin-bottom: 0.8rem;
+  font-size: 1.05rem;
+  margin: 0;
   position: relative;
   z-index: 1;
-  display: flex;
+  min-width: 170px;
+  display: inline-flex;
   align-items: center;
 }
 
@@ -294,10 +300,11 @@
 
 .requirement-desc {
   color: var(--text-main);
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 1rem;
+  line-height: 1.6;
   position: relative;
   z-index: 1;
+  flex: 1 1 auto;
 }
 
 .requirement-meta {
@@ -324,16 +331,15 @@
 }
 
 .requirements-note {
-  background: rgba(255, 215, 0, 0.1);
+  background: rgba(255, 245, 210, 0.9);
   border-left: 4px solid var(--primary-accent);
-  border-radius: 12px;
-  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
   color: var(--neutral-dark);
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-top: 2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 1.6rem;
   position: relative;
-  overflow: hidden;
 }
 
 .requirements-note::before {
@@ -355,21 +361,21 @@
 .compliance-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin: 2rem 0;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.75rem 0;
 }
 
 .compliance-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(0, 35, 102, 0.05);
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
+  background: rgba(0, 35, 102, 0.04);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--primary-dark);
-  border: 1px solid rgba(0, 35, 102, 0.1);
+  border: 1px solid rgba(0, 35, 102, 0.06);
 }
 
 .compliance-badge::before {
@@ -380,22 +386,24 @@
 
 @media (max-width: 900px) {
   .requirements-page {
-    padding: 2rem;
-    margin: 2rem 1rem;
+    padding: 1.5rem;
+    margin: 1.5rem 0.75rem;
   }
   
   .requirements-title {
     font-size: 2rem;
   }
   
+  .requirements-list {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
   .requirement-item {
-    padding: 1.2rem 1.5rem;
-  }
-  
-  .requirement-meta {
     flex-direction: column;
-    gap: 0.5rem;
+    padding: 1rem 1rem;
   }
+  .requirement-name { min-width: 0; }
+  .requirement-desc { margin-top: 0.6rem; }
 }
 
 @media (max-width: 600px) {
@@ -418,4 +426,44 @@
   .requirement-desc {
     font-size: 1rem;
   }
+}
+
+/* Form & inputs polish */
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  padding: 0.85rem 0.9rem;
+  border: 1px solid rgba(2,6,23,0.08);
+  border-radius: 8px;
+  box-shadow: none;
+  font-size: 0.98rem;
+}
+.contact-form textarea { min-height: 120px; }
+.cta-btn {
+  background: linear-gradient(90deg, var(--primary-dark), #0b3a8a);
+  color: #fff;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+.requirements-button {
+  background: transparent;
+  border: 2px solid rgba(0,35,102,0.08);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+/* File preview */
+.file-preview-list { display:flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem; }
+.file-preview { display:flex; align-items:center; justify-content:space-between; gap:0.6rem; background: #fbfbfb; padding:0.45rem 0.6rem; border-radius:8px; border:1px solid rgba(2,6,23,0.04); }
+.file-name { font-size:0.95rem; color:var(--text-main); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.file-remove { background: transparent; border: none; color:#b71c1c; font-size:1.2rem; cursor:pointer; }
+
+/* subtle responsive tweak for two-column collapse */
+@media (max-width: 440px) {
+  .requirements-list { grid-template-columns: 1fr; }
 }

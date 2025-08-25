@@ -11,13 +11,9 @@
   max-width: 1200px;
   margin: 3rem auto;
   padding: 2.5rem;
-  background: var(--neutral-light);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   font-family: 'Montserrat', 'Segoe UI', sans-serif;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 35, 102, 0.1);
 }
 
 .services-page::before {
@@ -57,6 +53,54 @@
   margin-bottom: 3rem;
   max-width: 800px;
 }
+
+/* Photo-rich services grid (new layout) */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(2,6,23,0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.service-card:hover { transform: translateY(-8px); box-shadow: 0 28px 72px rgba(2,6,23,0.12); }
+
+.service-media img { width:100%; height:200px; object-fit:cover; display:block }
+
+.service-body { padding: 1rem 1.1rem; display:flex; flex-direction:column; gap:10px }
+.service-body h4 { margin: 0; color: var(--primary-dark); font-size: 1.15rem }
+.service-body small { color: var(--secondary-accent); font-weight:600 }
+.service-excerpt { color: #334155; line-height:1.5 }
+.more { align-self:start; background: linear-gradient(90deg,var(--primary-accent),#ffd700); color:#081026; padding:8px 12px; border-radius:8px; border:none; cursor:pointer }
+
+@media (min-width: 1000px) {
+  .service-media img { height: 260px }
+}
+
+/* Lightbox / modal */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3200;
+  padding: 24px;
+}
+
+.lightbox-inner { position: relative; max-width: 96%; max-height: 92%; }
+.lightbox-inner img { display:block; width:100%; height:auto; border-radius:10px; box-shadow:0 24px 80px rgba(0,0,0,0.6) }
+.lightbox-close { position: absolute; right: -8px; top: -8px; background: #fff; border-radius: 50%; width:36px; height:36px; border:none; font-size:22px; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,0.2) }
 
 .services-list {
   margin-bottom: 3rem;

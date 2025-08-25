@@ -1,89 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Clients.css';
 
+const CLIENTS = [
+  { id: 1, name: 'CRCC KW Paul', logo: '/CRCC_KW_PAUL.jpg', testimonial: 'Reliable partner on major projects.' },
+  { id: 2, name: 'CW', logo: '/CW.jpg', testimonial: 'Professional and timely service.' },
+  { id: 3, name: 'CRCC', logo: '/CRCC.png', testimonial: 'Strong collaboration across teams.' },
+  { id: 4, name: 'CSCE', logo: '/CSCE.png', testimonial: 'Trusted for large-scale works.' },
+  { id: 5, name: 'Bouygues', logo: '/Bouygues.png', testimonial: 'High standards and clear communication.' },
+  { id: 6, name: 'Yau Lee', logo: '/Yau Lee.png', testimonial: 'Consistent results on complex sites.' },
+  { id: 7, name: 'BKRC', logo: '/BKRC.png', testimonial: 'Great safety and coordination.' },
+  { id: 8, name: 'CHEC', logo: '/CHEC.png', testimonial: 'Excellent local knowledge and support.' },
+  { id: 9, name: 'Sinohydro', logo: '/Sinohydro.png', testimonial: 'Skilled workforce and logistics.' },
+  { id: 10, name: 'Dragages', logo: '/Dragages.png', testimonial: 'Dependable across phases.' },
+  { id: 11, name: 'Paul Y', logo: '/Paul_Y.png', testimonial: 'Long-standing client relationship.' }
+];
+
 function Clients() {
+  const [active, setActive] = useState(null);
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') setActive(null);
+    }
+    if (active) document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [active]);
+
   return (
     <section className="clients">
-      <h2 className="clients-title">Our Trusted Clients</h2>
-      <p className="clients-subtitle">We take pride in working with these esteemed partners.</p>
-      <div className="clients-grid">
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/CRCC_KW_PAUL.jpg" alt="Client 1" className="client-logo" />
-          </div>
-          <p className="client-name">Client 1</p>
-          <p className="client-testimonial">"Client 1's testimonial goes here."</p>
+      <div className="clients-container">
+        <h2 className="clients-title">Our Trusted Clients</h2>
+        <p className="clients-subtitle">We take pride in working with these esteemed partners across Hong Kong and the region.</p>
+
+        <div className="clients-grid">
+          {CLIENTS.map((c) => (
+            <button
+              key={c.id}
+              className="client-card"
+              onClick={() => setActive(c)}
+              aria-label={`Open details for ${c.name}`}
+            >
+              <div className="client-logo-container">
+                <img src={c.logo} alt={c.name} className="client-logo" loading="lazy" />
+              </div>
+              <p className="client-name">{c.name}</p>
+              <p className="client-testimonial">{c.testimonial}</p>
+            </button>
+          ))}
         </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/CW.jpg" alt="Client 2" className="client-logo" />
+
+        {active && (
+          <div className="client-modal" role="dialog" aria-modal="true" aria-label={`${active.name} details`}>
+            <div className="client-modal-backdrop" onClick={() => setActive(null)} />
+            <div className="client-modal-content">
+              <button className="client-modal-close" onClick={() => setActive(null)} aria-label="Close">×</button>
+              <div className="client-modal-body">
+                <div className="client-modal-image">
+                  <img src={active.logo} alt={active.name} />
+                </div>
+                <div className="client-modal-info">
+                  <h3>{active.name}</h3>
+                  <p>{active.testimonial}</p>
+                  <p>We have provided tailored security and site services for {active.name} on multiple projects, including mobilisation, perimeter security and trained on-site officers — with a focus on safety and compliance.</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="client-name">Client 2</p>
-          <p className="client-testimonial">"Client 2's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/CRCC.png" alt="Client 3" className="client-logo" />
-          </div>
-          <p className="client-name">Client 3</p>
-          <p className="client-testimonial">"Client 3's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/CSCE.png" alt="Client 4" className="client-logo" />
-          </div>
-          <p className="client-name">Client 4</p>
-          <p className="client-testimonial">"Client 4's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/Bouygues.png" alt="Client 5" className="client-logo" />
-          </div>
-          <p className="client-name">Client 5</p>
-          <p className="client-testimonial">"Client 5's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/Yau Lee.png" alt="Client 6" className="client-logo" />
-          </div>
-          <p className="client-name">Client 6</p>
-          <p className="client-testimonial">"Client 6's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/BKRC.png" alt="Client 7" className="client-logo" />
-          </div>
-          <p className="client-name">Client 7</p>
-          <p className="client-testimonial">"Client 7's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/CHEC.png" alt="Client 8" className="client-logo" />
-          </div>
-          <p className="client-name">Client 8</p>
-          <p className="client-testimonial">"Client 8's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/Sinohydro.png" alt="Client 9" className="client-logo" />
-          </div>
-          <p className="client-name">Client 9</p>
-          <p className="client-testimonial">"Client 9's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/Dragages.png" alt="Client 10" className="client-logo" />
-          </div>
-          <p className="client-name">Client 10</p>
-          <p className="client-testimonial">"Client 10's testimonial goes here."</p>
-        </div>
-        <div className="client-card">
-          <div className="client-logo-container">
-            <img src="/Paul_Y.png" alt="Client 11" className="client-logo" />
-          </div>
-          <p className="client-name">Client 11</p>
-          <p className="client-testimonial">"Client 11's testimonial goes here."</p>
-        </div>
+        )}
       </div>
     </section>
   );

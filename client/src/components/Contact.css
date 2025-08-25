@@ -13,13 +13,10 @@
   max-width: 1200px;
   margin: 3rem auto;
   padding: 2.5rem;
-  background: var(--neutral-light);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   font-family: 'Montserrat', 'Segoe UI', sans-serif;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 35, 102, 0.1);
 }
 
 .contact-page::before {
@@ -39,6 +36,7 @@
   margin-bottom: 1.5rem;
   position: relative;
   display: inline-block;
+  text-align: center;
 }
 
 .contact-title::after {
@@ -60,6 +58,33 @@
   max-width: 800px;
 }
 
+
+/* Ai Changing styles*/
+
+/* HERO */
+.contact-hero {
+  display: flex;
+  flex-direction: column; /* stack title + subtitle */
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.contact-hero > div { max-width: 900px; width: 100%; }
+
+/* GRID LAYOUT */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.contact-left { display: flex; flex-direction: column; gap: 1.25rem; }
+.contact-right { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/*******************************************/
 .contact-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -174,6 +199,21 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-row .form-group { margin: 0; }
+
+.cta-btn {
+  background: linear-gradient(90deg, var(--primary-dark), #0b3a8a);
+  color: #fff;
+  padding: 0.9rem 1.25rem;
+  border-radius: 10px;
+  border: none;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.12);
+}
+.cta-btn:hover { transform: translateY(-3px); }
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -256,11 +296,17 @@
 
 .contact-map-wrapper {
   width: 100%;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  border: 3px solid var(--primary-accent);
-  height: 400px;
+  box-shadow: 0 10px 40px rgba(2,6,23,0.12);
+  border: 2px solid rgba(0,35,102,0.08);
+  height: 360px;
+}
+.contact-map-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .emergency-contact {
@@ -327,7 +373,7 @@
     font-size: 2rem;
   }
   
-  .contact-info {
+  .contact-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -337,8 +383,9 @@
   }
 
   .contact-card {
-    margin-right: 60px;
+    margin-right: 0;
   }
+
 }
 
 @media (max-width: 600px) {

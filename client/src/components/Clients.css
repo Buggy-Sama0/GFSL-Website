@@ -1,7 +1,7 @@
 /* ===== CLIENTS SECTION ===== */
 .clients {
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #f8f8f8 0%, #e6e9f0 100%);
+  /* keep ample vertical spacing; sides use a responsive inset so content is centered with visible gutters */
+  padding: 4rem clamp(1.5rem, 6vw, 6rem);
   position: relative;
   overflow: hidden;
 }
@@ -34,8 +34,6 @@
   text-align: center;
   position: relative;
   display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .clients-title::after {
@@ -62,7 +60,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 2rem;
-  padding: 1rem;
+  /* keep the grid itself constrained so it sits centered with left/right space */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0.5rem 0;
 }
 
 .client-card {
@@ -71,7 +72,7 @@
   padding: 2rem 1.5rem;
   text-align: center;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: box-shadow 0.28s ease, transform 0.22s ease;
   position: relative;
   overflow: hidden;
   border-top: 3px solid var(--primary-accent, #ffd700);
@@ -88,10 +89,12 @@
   z-index: 0;
 }
 
+.client-card:focus,
 .client-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
   border-color: var(--primary-dark, #002366);
+  outline: none;
 }
 
 .client-card:hover::after {
@@ -127,7 +130,7 @@
 .client-card:hover .client-logo {
   filter: grayscale(0%) contrast(1);
   opacity: 1;
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .client-name {
@@ -143,15 +146,87 @@
   font-size: 0.9rem;
   color: var(--text-secondary, #555);
   line-height: 1.6;
-  margin-top: 1rem;
-  position: relative;
-  z-index: 1;
-  display: none; /* Optional: show on hover */
+  margin: 0;
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 3;
+  background: rgba(255,255,255,0.98);
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(2,6,23,0.06);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  pointer-events: none;
+  text-align: center;
+  max-height: calc(100% - 4rem);
+  overflow: auto;
 }
 
+.client-card:focus .client-testimonial,
 .client-card:hover .client-testimonial {
-  display: block;
-  animation: fadeInUp 0.5s ease;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Modal styles */
+.client-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.client-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+}
+.client-modal-content {
+  position: relative;
+  max-width: 920px;
+  width: calc(100% - 3rem);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 30px 60px rgba(2,6,23,0.35);
+  z-index: 2;
+  overflow: hidden;
+}
+.client-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text-primary, #111);
+}
+.client-modal-body {
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+  align-items: center;
+}
+.client-modal-image img {
+  max-width: 220px;
+  max-height: 160px;
+  object-fit: contain;
+}
+.client-modal-info h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary-dark, #002366);
+}
+.client-modal-info p { margin: 0 0 0.6rem 0; color: var(--text-secondary, #444); }
+
+@media (max-width: 720px) {
+  .client-modal-body { flex-direction: column; text-align: center; }
+  .client-modal-image img { margin: 0 auto; }
 }
 
 /* Animations */
