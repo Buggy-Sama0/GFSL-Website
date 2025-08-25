@@ -172,8 +172,9 @@
 .proj-meta { padding:12px }
 .proj-meta h5 { margin:0 0 6px; }
 
-.stats-strip { padding:10px 0; }
-.stats-row { display:flex; gap:28px; justify-content:center; align-items:center }
+.stats-strip { padding:10px 18px; }
+.stats-row { 
+  display:flex; gap:28px; justify-content:center; align-items:center; width:100%; }
 .stat .num { font-size:1.8rem; font-weight:800; color: var(--accent-gold) }
 .stat .label { color: var(--muted); font-size:0.95rem }
 
