@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './About.css';
-import { Helmet } from 'react-helmet-async';
 
 const team = [
   {
@@ -73,6 +72,15 @@ const faqs = [
 
 
 function About() {
+  useEffect(() => {
+    document.title = 'About Gurkha Force Security — Trusted Security Company in Hong Kong';
+    const meta = document.querySelector('meta[name="description"]');
+    const content = "Learn about Gurkha Force Security's mission, values and expertise in providing professional manned guarding, patrols and security consulting in Hong Kong.";
+    if (meta) meta.setAttribute('content', content);
+    else {
+      const m = document.createElement('meta'); m.name = 'description'; m.content = content; document.head.appendChild(m);
+    }
+  }, []);
   return (
     <section className="about" id="about">
       <Helmet>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './Service.css';
-import { Helmet } from 'react-helmet-async';
 
 const services = [
   {
@@ -36,6 +35,13 @@ const services = [
 ];
 
 function Services() {
+  useEffect(() => {
+    document.title = 'Security Services — Manned Guarding, Event & Construction Site Security';
+    const meta = document.querySelector('meta[name="description"]');
+    const content = 'Professional security services in Hong Kong: manned guarding, event security, construction site protection and access control. Contact us for a quote.';
+    if (meta) meta.setAttribute('content', content);
+    else { const m = document.createElement('meta'); m.name = 'description'; m.content = content; document.head.appendChild(m); }
+  }, []);
   const [openIndex, setOpenIndex] = useState(null);
   const [lightboxSrc, setLightboxSrc] = useState(null);
 

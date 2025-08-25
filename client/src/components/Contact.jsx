@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Contact.css';
-import { Helmet } from 'react-helmet-async';
 
 function Contact() {
+  useEffect(() => {
+    document.title = 'Contact Gurkha Force Security — Request a Quote or Site Survey';
+    const meta = document.querySelector('meta[name="description"]');
+    const content = 'Contact Gurkha Force Security for professional security services, site surveys and tailored protection plans in Hong Kong.';
+    if (meta) meta.setAttribute('content', content);
+    else { const m = document.createElement('meta'); m.name = 'description'; m.content = content; document.head.appendChild(m); }
+  }, []);
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './Requirement.css';
 import axios from 'axios';
-import { Helmet } from 'react-helmet-async';
 
 const requirements = [
   { name: 'HKID', description: 'Valid Hong Kong Identity Card.' },
@@ -20,6 +19,13 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const initialState={ name: '', email: '', phone: '', service: ''}
 
 function Requirements() {
+  useEffect(() => {
+    document.title = 'Job Requirements & Apply — Gurkha Force Security';
+    const meta = document.querySelector('meta[name="description"]');
+    const content = 'View open positions and application requirements at Gurkha Force Security. Learn how to apply for security roles in Hong Kong.';
+    if (meta) meta.setAttribute('content', content);
+    else { const m = document.createElement('meta'); m.name = 'description'; m.content = content; document.head.appendChild(m); }
+  }, []);
   const [form, setForm] = useState(initialState);
   const [files, setFiles]=useState([])
   const [submitted, setSubmitted] = useState(false);
@@ -88,9 +94,8 @@ const handleSubmit = async (e) => {
         //headers: {'Content-Type':'multipart/form-data'},
         timeout: 180000,
       });
-      console.log('Form Data Submitted:', response.data);
-      console.log('File _id: ', response.data.id);
-      setFileId(response.data.id);
+  console.log('Form Data Submitted:', response.data);
+  console.log('File _id: ', response.data.id);
       setFiles([]);
       setSubmitted(true);
       setForm(initialState);
@@ -125,10 +130,7 @@ const handleSubmit = async (e) => {
   */
   return (
     <main className="requirements-page">
-      <Helmet>
-        <title>Job Requirements & Apply — Gurkha Force Security</title>
-        <meta name="description" content="View open positions and application requirements at Gurkha Force Security. Learn how to apply for security roles in Hong Kong." />
-      </Helmet>
+  {/* Head meta handled via useEffect above */}
       <h2 className="requirements-title">Job Application Requirements</h2>
       <p className="requirements-intro">To apply for a position at Gurkha Force Security Ltd, please ensure you have the following documents ready:</p>
       <ul className="requirements-list">

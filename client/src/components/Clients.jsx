@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './Clients.css';
-import { Helmet } from 'react-helmet-async';
 
 const CLIENTS = [
   { id: 1, name: 'CRCC KW Paul', logo: '/CRCC_KW_PAUL.jpg', testimonial: 'Reliable partner on major projects.' },
@@ -17,6 +16,13 @@ const CLIENTS = [
 ];
 
 function Clients() {
+  useEffect(() => {
+    document.title = 'Our Clients — Gurkha Force Security';
+    const meta = document.querySelector('meta[name="description"]');
+    const content = 'Trusted clients and project partners of Gurkha Force Security Ltd. We serve construction, corporate and residential sectors across Hong Kong.';
+    if (meta) meta.setAttribute('content', content);
+    else { const m = document.createElement('meta'); m.name = 'description'; m.content = content; document.head.appendChild(m); }
+  }, []);
   const [active, setActive] = useState(null);
 
   useEffect(() => {

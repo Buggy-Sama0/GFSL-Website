@@ -1,13 +1,22 @@
 import './Home.css';
-import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
 
 function Home() {
+  useEffect(() => {
+    document.title = 'Gurkha Force Security Ltd — Professional Security Services Hong Kong';
+    const meta = document.querySelector('meta[name="description"]');
+    const content = 'Gurkha Force Security Ltd provides manned guarding, event security and construction site protection in Hong Kong. Contact us for tailored security solutions.';
+    if (meta) meta.setAttribute('content', content);
+    else {
+      const m = document.createElement('meta');
+      m.name = 'description';
+      m.content = content;
+      document.head.appendChild(m);
+    }
+  }, []);
+
   return (
     <main className="home">
-      <Helmet>
-        <title>Gurkha Force Security Ltd — Professional Security Services Hong Kong</title>
-        <meta name="description" content="Gurkha Force Security Ltd provides manned guarding, event security and construction site protection in Hong Kong. Contact us for tailored security solutions." />
-      </Helmet>
       {/* Hero - BusTraveller style split hero */}
   <section className="hero hero-anim">
         <div className="hero-inner">
