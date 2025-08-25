@@ -60,10 +60,6 @@ function Services() {
 
   return (
     <main className="services-page">
-      <Helmet>
-        <title>Security Services — Manned Guarding, Event & Construction Site Security</title>
-        <meta name="description" content="Professional security services in Hong Kong: manned guarding, event security, construction site protection and access control. Contact us for a quote." />
-      </Helmet>
       <h2 className="services-title">Our Services</h2>
       <div className="services-grid">
         {services.map((service, idx) => (
