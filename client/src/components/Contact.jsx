@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Contact.css';
+import { Helmet } from 'react-helmet-async';
 
 function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
@@ -20,6 +21,10 @@ function Contact() {
 
   return (
     <main className="contact-page">
+      <Helmet>
+        <title>Contact Gurkha Force Security — Request a Quote or Site Survey</title>
+        <meta name="description" content="Contact Gurkha Force Security for professional security services, site surveys and tailored protection plans in Hong Kong." />
+      </Helmet>
       <header className="contact-hero">
         <div>
           <h2 className="contact-title">Contact Gurkha Force Security</h2>

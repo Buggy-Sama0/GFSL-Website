@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Clients.css';
+import { Helmet } from 'react-helmet-async';
 
 const CLIENTS = [
   { id: 1, name: 'CRCC KW Paul', logo: '/CRCC_KW_PAUL.jpg', testimonial: 'Reliable partner on major projects.' },
@@ -28,6 +29,10 @@ function Clients() {
 
   return (
     <section className="clients">
+      <Helmet>
+        <title>Our Clients — Gurkha Force Security</title>
+        <meta name="description" content="Trusted clients and project partners of Gurkha Force Security Ltd. We serve construction, corporate and residential sectors across Hong Kong." />
+      </Helmet>
       <div className="clients-container">
         <h2 className="clients-title">Our Trusted Clients</h2>
         <p className="clients-subtitle">We take pride in working with these esteemed partners across Hong Kong and the region.</p>

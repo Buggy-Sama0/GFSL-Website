@@ -1,8 +1,13 @@
 import './Home.css';
+import { Helmet } from 'react-helmet-async';
 
 function Home() {
   return (
     <main className="home">
+      <Helmet>
+        <title>Gurkha Force Security Ltd — Professional Security Services Hong Kong</title>
+        <meta name="description" content="Gurkha Force Security Ltd provides manned guarding, event security and construction site protection in Hong Kong. Contact us for tailored security solutions." />
+      </Helmet>
       {/* Hero - BusTraveller style split hero */}
   <section className="hero hero-anim">
         <div className="hero-inner">

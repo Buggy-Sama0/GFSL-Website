@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './Requirement.css';
 import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 
 const requirements = [
   { name: 'HKID', description: 'Valid Hong Kong Identity Card.' },
@@ -124,6 +125,10 @@ const handleSubmit = async (e) => {
   */
   return (
     <main className="requirements-page">
+      <Helmet>
+        <title>Job Requirements & Apply — Gurkha Force Security</title>
+        <meta name="description" content="View open positions and application requirements at Gurkha Force Security. Learn how to apply for security roles in Hong Kong." />
+      </Helmet>
       <h2 className="requirements-title">Job Application Requirements</h2>
       <p className="requirements-intro">To apply for a position at Gurkha Force Security Ltd, please ensure you have the following documents ready:</p>
       <ul className="requirements-list">

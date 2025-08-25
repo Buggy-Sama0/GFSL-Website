@@ -1,5 +1,6 @@
 import React from 'react';
 import './About.css';
+import { Helmet } from 'react-helmet-async';
 
 const team = [
   {
@@ -74,6 +75,10 @@ const faqs = [
 function About() {
   return (
     <section className="about" id="about">
+      <Helmet>
+        <title>About Gurkha Force Security — Trusted Security Company in Hong Kong</title>
+        <meta name="description" content="Learn about Gurkha Force Security's mission, values and expertise in providing professional manned guarding, patrols and security consulting in Hong Kong." />
+      </Helmet>
       <div className="about-hero">
         <div className="hero-left">
           <h2>About Us</h2>
