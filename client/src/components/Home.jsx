@@ -104,7 +104,7 @@ function Home() {
       </section>
 
       {/* Stats strip */}
-      <section className="section-card stats-strip">
+      <section className="section-card">
         <div className="stats-row">
           <div className="stat">
             <div className="num">10+</div>
